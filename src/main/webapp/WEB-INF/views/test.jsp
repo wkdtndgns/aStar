@@ -1,0 +1,12 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <title>test</title>
+</head>
+<body>
+
+<div style="display: flex; justify-content: center;">
+    <img src="/img/test.PNG" class="img-responsive img-circle" alt="Responsive image">
+</div>
+</body>
+</html>
