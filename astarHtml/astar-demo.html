@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        div {
+            font-family: arial;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script type='text/javascript' src='./astar-pathfinding-canvas.js'></script>
+</head>
+<body onload='onload()'>
+<div>
+    <h2>1조 과제</h2>
+</div>
+<div style="margin : 20px;">
+    <input type='button' onClick='createWorld()' value='장애물 랜덤'>
+</div>
+<div>
+    <canvas id="gameCanvas"></canvas>
+</div>
+
+</body>
+
+</html>
