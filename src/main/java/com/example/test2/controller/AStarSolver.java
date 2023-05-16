@@ -1,10 +1,7 @@
 package com.example.test2.controller;
 
-import java.util.AbstractCollection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class AStarSolver extends Solver
 {
@@ -67,6 +64,7 @@ public class AStarSolver extends Solver
 		});
 	}
 	
+//	public String solve()
 	public String solve()
 	{
 		this.maze.initMaze(); //Re-init maze
@@ -143,24 +141,31 @@ public class AStarSolver extends Solver
 		
 		long time = endTime - startTime;
 		
-		if(this.manhattan)
-			this.result = "    ___                    __  ___            __          __  __            \r\n" +
-					"   /   | __/|_            /  |/  /___ _____  / /_  ____ _/ /_/ /_____ _____ \r\n" +
-					"  / /| ||    /  ______   / /|_/ / __ `/ __ \\/ __ \\/ __ `/ __/ __/ __ `/ __ \\\r\n" +
-					" / ___ /_ __|  /_____/  / /  / / /_/ / / / / / / / /_/ / /_/ /_/ /_/ / / / /\r\n" +
-					"/_/  |_||/             /_/  /_/\\__,_/_/ /_/_/ /_/\\__,_/\\__/\\__/\\__,_/_/ /_/ \n";
-		else
-			this.result = "    ___                    ______           ___     __\r\n" +
-					"   /   | __/|_            / ____/_  _______/ (_)___/ /\r\n" +
-					"  / /| ||    /  ______   / __/ / / / / ___/ / / __  / \r\n" +
-					" / ___ /_ __|  /_____/  / /___/ /_/ / /__/ / / /_/ /  \r\n" +
-					"/_/  |_||/             /_____/\\__,_/\\___/_/_/\\__,_/   \n";
-		String corrResult = new String();
+//		if(this.manhattan)
+//			this.result = "    ___                    __  ___            __          __  __            \r\n" +
+//					"   /   | __/|_            /  |/  /___ _____  / /_  ____ _/ /_/ /_____ _____ \r\n" +
+//					"  / /| ||    /  ______   / /|_/ / __ `/ __ \\/ __ \\/ __ `/ __/ __/ __ `/ __ \\\r\n" +
+//					" / ___ /_ __|  /_____/  / /  / / /_/ / / / / / / / /_/ / /_/ /_/ /_/ / / / /\r\n" +
+//					"/_/  |_||/             /_/  /_/\\__,_/_/ /_/_/ /_/\\__,_/\\__/\\__/\\__,_/_/ /_/ \n";
+//		else
+//			this.result = "    ___                    ______           ___     __\r\n" +
+//					"   /   | __/|_            / ____/_  _______/ (_)___/ /\r\n" +
+//					"  / /| ||    /  ______   / __/ / / / / ___/ / / __  / \r\n" +
+//					" / ___ /_ __|  /_____/  / /___/ /_/ / /__/ / / /_/ /  \r\n" +
+//					"/_/  |_||/             /_____/\\__,_/\\___/_/_/\\__,_/   \n";
+//		String corrResult = new String();
+		ArrayList<Integer> pathList = new ArrayList<>();
 		if(endfound)
 		{
 			this.maze.resetGrid();
 			Node<Maze> revertedTree = ((PriorityQueue<Node<Maze>>) this.frontier).remove();
-			
+
+			ArrayList<Integer> point = new ArrayList<>();
+//			point.add(this.maze.getEnd().getCol());
+//			point.add(this.maze.getEnd().getLine());
+			pathList.add(this.maze.getEnd().getCol());
+			pathList.add(this.maze.getEnd().getLine());
+
 			revertedTree = revertedTree.getFather();
 			this.result += "Path: " + this.maze.getEnd().toString() + "(End) <- ";
 			this.pathLength++;
@@ -172,22 +177,26 @@ public class AStarSolver extends Solver
 				
 				if(!state.equals(this.maze.getEnd()))
 				{
+					pathList.add(state.getCol());
+					pathList.add(state.getLine());
 					this.result += state.toString() + " <- ";
 					this.maze.getGrid()[state.getLine()][state.getCol()].setAttribute("*");
 					this.pathLength++;
 				}
 				revertedTree = revertedTree.getFather();
 			}
-			
+			pathList.add(this.maze.getStart().getCol());
+			pathList.add(this.maze.getStart().getLine());
 			this.result += this.maze.getStart().toString() + "(Start) \n" + "Path length: " + this.pathLength + "\nNumber of nodes created: " + this.nodesCounter + "\nExecution time: " + time/1000d + " seconds\n";
-//			this.result += this.maze.printMaze();
+			this.result += this.maze.printMaze();
 		}
 		else
 		{
 			this.result += "Failed : Unable to go further and/or end is unreachable.";
 		}
 		
-		return this.result;
+//		return this.result;
+		return pathList.toString();
 //		return corrResult;
 	}
 	

@@ -64,8 +64,34 @@ class aStar {
 
 //        System.out.println(b2.solve());
 //        System.out.println(d2.solve());
-        System.out.println(a2.solve());
+        String result = a2.solve();
+        result = result.replaceAll("[\\[\\]\\s]", "");
+        String[] strArray = result.split(",");
+//        System.out.println(strArray);
+//        System.out.println(a2.solve());
+//        for (String s: strArray) {
+//            System.out.print(Integer.valueOf(s));
+//        }
+        int[][] resultIntList = new int[strArray.length/2][2];
+        int col = 0;
+        System.out.println(strArray.length);
+        System.out.println(strArray[0]);
+        for (int i = 1; i < strArray.length + 1; i++) {
+            System.out.print(col + " " + i%2 + ",  ");
+            resultIntList[col][i%2] = Integer.valueOf(strArray[strArray.length - i]);
+            if (i%2==0){
+                col++;
+            }
+        }
 
+        for (int[] a:resultIntList
+             ) {
+            for (int i: a
+                 ) {
+                System.out.print("[" + i + "]");
+            }
+            System.out.println();
+        }
 //        a2 = new AStarSolver(lab2, false);
 //
 //        System.out.println(a2.solve());

@@ -35,12 +35,12 @@ public class Main
 		DFS_Solver d2 = new DFS_Solver(lab2);
 		AStarSolver a2 = new AStarSolver(lab2, true);
 		
-		System.out.println(b2.solve());
-		System.out.println(d2.solve());
-		System.out.println(a2.solve());
+//		System.out.println(b2.solve());
+//		System.out.println(d2.solve());
+//		System.out.println(a2.solve());
 		
 		a2 = new AStarSolver(lab2, true);
 		
-		System.out.println(a2.solve());
+//		System.out.println(a2.solve());
 	}
 }
