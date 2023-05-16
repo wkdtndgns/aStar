@@ -1,13 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
     <title>test</title>
-</head>
-<body>
 
-<div style="display: flex; justify-content: center;">
-    <img src="./test.PNG" class="img-responsive img-circle" alt="Responsive image">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        div {
+            font-family: arial;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script type='text/javascript' src='./astar-pathfinding-canvas.js'></script>
+</head>
+<body onload='onload()'>
+<div>
+    <h2>1조 과제</h2>
 </div>
+
+<div>
+    <h1>Current Time: <span th:text="${currentTime}"></span></h1>
+</div>
+
+<div>
+    <input type='button' onClick='createWorld()' value='장애물 랜덤'>
+</div>
+<div>
+    <canvas id="gameCanvas"></canvas>
+</div>
+
 </body>
+
 </html>

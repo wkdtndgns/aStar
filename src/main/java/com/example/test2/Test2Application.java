@@ -12,5 +12,4 @@ public class Test2Application {
         System.out.println("test1123");
         SpringApplication.run(Test2Application.class, args);
     }
-
 }
