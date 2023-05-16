@@ -22,6 +22,8 @@ public class testRest {
 
 
 class aStar {
+
+
     int[][] world;
     int[] start;
     int[] end;
