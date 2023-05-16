@@ -19,6 +19,8 @@ public class testRest {
         int[] pathStart = requestData.getPathStart();
         int[] pathEnd = requestData.getPathEnd();
 
+        // param toString
+        System.out.println("------------------------------");
         for (int[] a : world) {
             for (int i : a) {
                 System.out.print(i);
@@ -37,6 +39,7 @@ public class testRest {
         }
         System.out.println();
         System.out.println();
+        System.out.println("------------------------------");
 
         // 응답 데이터 생성
         int[][] result = {{0, 0}, {1, 0}, {1, 1}, {1, 2}, {1, 3}};
@@ -51,11 +54,12 @@ class aStar {
     int[][] world;
     int[] start;
     int[] end;
-    aStar(){
+
+    aStar() {
 
     }
-    public static void main(String[] args) throws IOException
-    {
+
+    public static void main(String[] args) throws IOException {
         Square start1 = new Square(1, 0, "S");
         Square end1 = new Square(3, 4, "E");
 
@@ -95,21 +99,21 @@ class aStar {
 //        for (String s: strArray) {
 //            System.out.print(Integer.valueOf(s));
 //        }
-        int[][] resultIntList = new int[strArray.length/2][2];
+        int[][] resultIntList = new int[strArray.length / 2][2];
         int col = 0;
         System.out.println(strArray.length);
         System.out.println(strArray[0]);
         for (int i = 1; i < strArray.length + 1; i++) {
-            System.out.print(col + " " + i%2 + ",  ");
-            resultIntList[col][i%2] = Integer.valueOf(strArray[strArray.length - i]);
-            if (i%2==0){
+            System.out.print(col + " " + i % 2 + ",  ");
+            resultIntList[col][i % 2] = Integer.valueOf(strArray[strArray.length - i]);
+            if (i % 2 == 0) {
                 col++;
             }
         }
 
-        for (int[] a:resultIntList
+        for (int[] a : resultIntList
         ) {
-            for (int i: a
+            for (int i : a
             ) {
                 System.out.print("[" + i + "]");
             }
