@@ -173,12 +173,8 @@ public class AStarAlgorithm {
 
         int[][] startPoints = new int[][]{
                 new int[]{9, 9},
-                new int[]{4, 4},
-                new int[]{1, 1},
-                new int[]{0, 0},
-                new int[]{0, 9},
                 new int[]{9, 0},
-                new int[]{4, 4}
+                new int[]{0, 0},
         };
 
         for (int i = 0; i < size; i++) {

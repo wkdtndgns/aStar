@@ -182,8 +182,12 @@ function canvasClick(e) {
     let sClick = $('#selClick').val();
 
     if (bSetWall === true) {
-        world[cell[0]][cell[1]] = 1;
-        redraw();
+        if (pathStart[0] == cell[0] && pathStart[1] == cell[1] || pathEnd[0] == cell[0] && pathEnd[1] == cell[1]) {
+            alert('출발, 도착지점은 선택할 수 없습니다.');
+        } else {
+            world[cell[0]][cell[1]] = 1;
+            redraw();
+        }
         return true;
     }
 
