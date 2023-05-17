@@ -18,14 +18,14 @@ public class testRest {
         int[][] world = requestData.getWorld();
         int[] pathStart = requestData.getPathStart();
         int[] pathEnd = requestData.getPathEnd();
-
+        int direction = requestData.getDirection();
         if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
             return new int[][]{pathStart};
         }
 
         System.out.println(" 결과 ------------------------------");
 
-        AStarAlgorithm a = new AStarAlgorithm(world);
+        AStarAlgorithm a = new AStarAlgorithm(world,direction);
 
         ArrayList<int[]> resultList = a.getResult(pathStart, pathEnd);
         int[][] result = resultList.toArray(new int[0][]);
@@ -46,7 +46,9 @@ public class testRest {
         int[][] world = requestData.getWorld();
         int[] pathStart = requestData.getPathStart();
         int[] pathEnd = requestData.getPathEnd();
-        AStarAlgorithm a = new AStarAlgorithm(world);
+        int direction = requestData.getDirection();
+
+        AStarAlgorithm a = new AStarAlgorithm(world, direction);
         ArrayList<int[]> resultList = a.getResult(pathStart, pathEnd);
         List<List<int[]>> result = a.getScoreMap();
 
@@ -63,8 +65,6 @@ public class testRest {
             System.out.println();
             i++;
         }
-
-
         return result;
     }
 }

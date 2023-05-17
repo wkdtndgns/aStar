@@ -4,6 +4,7 @@ public class RequestData {
     private int[][] world;
     private int[] pathStart;
     private int[] pathEnd;
+    private int direction;
 
     // Getter와 Setter 생략
 
@@ -11,10 +12,11 @@ public class RequestData {
     public RequestData() {
     }
 
-    public RequestData(int[][] world, int[] pathStart, int[] pathEnd) {
+    public RequestData(int[][] world, int[] pathStart, int[] pathEnd, int i ) {
         this.world = world;
         this.pathStart = pathStart;
         this.pathEnd = pathEnd;
+        this.direction = i;
     }
 
     public int[][] getWorld() {
@@ -39,5 +41,13 @@ public class RequestData {
 
     public void setPathEnd(int[] pathEnd) {
         this.pathEnd = pathEnd;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 }

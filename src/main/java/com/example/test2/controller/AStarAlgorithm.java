@@ -69,11 +69,12 @@ public class AStarAlgorithm {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
-    private static final int[][] DIRECTIONS = {
-            {-1, -1}, {-1, 0}, {-1, 1},
-            {0, -1}, {0, 1},
-            {1, -1}, {1, 0}, {1, 1}
-    };
+    private static int[][] DIRECTIONS = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
+    private static int[][] DIRECTIONS8 = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
+
+    private static int[][] DIRECTIONS4 = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 
     private static int numRows = GRID.length;
     private static int numCols = GRID[0].length;
@@ -84,10 +85,16 @@ public class AStarAlgorithm {
     AStarAlgorithm() {
     }
 
-    AStarAlgorithm(int[][] world) {
+    AStarAlgorithm(int[][] world, int direction) {
         this.GRID = world;
         numCols = GRID[0].length;
         numRows = GRID.length;
+
+        if (direction == 4) {
+            DIRECTIONS = DIRECTIONS4;
+        } else {
+            DIRECTIONS = DIRECTIONS8;
+        }
     }
 
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
@@ -184,7 +191,7 @@ public class AStarAlgorithm {
         }
 
 //        AStarAlgorithm a = new AStarAlgorithm();
-        AStarAlgorithm a = new AStarAlgorithm(arr);
+        AStarAlgorithm a = new AStarAlgorithm(arr,8);
         ArrayList<int[]> result = a.getEndPoint(arr, startPoints);
         for (int i = 0; i < result.size(); i++) {
             for (int j = 0; j < result.get(i).length; j++) {

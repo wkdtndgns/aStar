@@ -19,7 +19,7 @@ public class Main {
         int[] startPoint = {0, 0};
         int[] endPoint = {3, 3};
 
-        AStarAlgorithm a = new AStarAlgorithm(arr);
+        AStarAlgorithm a = new AStarAlgorithm(arr,8);
         ArrayList<int[]> resultList = a.getResult(startPoint, endPoint);
         for (int[] array : resultList) {
             System.out.println(Arrays.toString(array));

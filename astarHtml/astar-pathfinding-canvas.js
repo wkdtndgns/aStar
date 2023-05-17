@@ -205,87 +205,86 @@ function canvasClick(e) {
             break;
     }
 
-    if (iDirection == 4) {
-        currentPath = findPath(world, pathStart, pathEnd);
+    // if (iDirection == 4) {
+    //     currentPath = findPath(world, pathStart, pathEnd);
+    //     redraw();
+    // } else {
+    if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
+        currentPath = [pathStart];
         redraw();
     } else {
-        if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
-            currentPath = [pathStart];
-            redraw();
-        } else {
-            $.ajax({
-                url: "http://localhost:8080/aStar",
-                type: "POST",
-                data: JSON.stringify({
-                    world: world,
-                    pathStart: pathStart,
-                    pathEnd: pathEnd
-                }),
-                contentType: "application/json",
-                dataType: "json",
-                success: async function (response) {
-                    // 서버로부터 받은 응답 데이터를 처리하는 코드
-                    // console.log(response);
-                    // 응답 데이터를 활용하여 필요한 작업 수행
-                    currentPath = response
+        var data = JSON.stringify({
+            world: world,
+            pathStart: pathStart,
+            pathEnd: pathEnd,
+            direction: iDirection
+        });
+
+        $.ajax({
+            url: "http://localhost:8080/aStar",
+            type: "POST",
+            data: data,
+            contentType: "application/json",
+            dataType: "json",
+            success: async function (response) {
+                // 서버로부터 받은 응답 데이터를 처리하는 코드
+                // console.log(response);
+                // 응답 데이터를 활용하여 필요한 작업 수행
+                currentPath = response
 
 
-                    if (bHistory) {
-                        $.ajax({
-                            url: "http://localhost:8080/aStarHistory",
-                            type: "POST",
-                            data: JSON.stringify({
-                                world: world,
-                                pathStart: pathStart,
-                                pathEnd: pathEnd
-                            }),
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: function (response) {
-                                // 서버로부터 받은 응답 데이터를 처리하는 코드
-                                // console.log(response);
-                                var f = function (aRow) {
-                                    $.each(aRow, function (j, arr) {
-                                        ctx.drawImage(spritesheet,
-                                            4 * tileWidth, 0,
-                                            tileWidth, tileHeight,
-                                            arr[0] * tileWidth,
-                                            arr[1] * tileHeight,
-                                            tileWidth, tileHeight);
-                                    });
-                                }
-
-                                var term = 300;
-
-                                if (response.length > 10) {
-                                    term = 100;
-                                }
-
-                                $.each(response, function (i, aRow) {
-                                    setTimeout(f, term * i, aRow);
-
-                                    if (i === response.length - 1) {
-                                        setTimeout(redraw, term * (i + 1));
-                                    }
+                if (bHistory) {
+                    $.ajax({
+                        url: "http://localhost:8080/aStarHistory",
+                        type: "POST",
+                        data: data,
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (response) {
+                            // 서버로부터 받은 응답 데이터를 처리하는 코드
+                            // console.log(response);
+                            var f = function (aRow) {
+                                $.each(aRow, function (j, arr) {
+                                    ctx.drawImage(spritesheet,
+                                        4 * tileWidth, 0,
+                                        tileWidth, tileHeight,
+                                        arr[0] * tileWidth,
+                                        arr[1] * tileHeight,
+                                        tileWidth, tileHeight);
                                 });
-                            },
-                            error: function (xhr, status, error) {
-                                // AJAX 요청이 실패한 경우의 처리 코드
-                                console.error(error);
                             }
-                        });
-                    }
 
-                    redraw();
-                },
-                error: function (xhr, status, error) {
-                    // AJAX 요청이 실패한 경우의 처리 코드
-                    alert("경로가 없습니다.");
-                    console.error(error);
+                            var term = 300;
+
+                            if (response.length > 10) {
+                                term = 100;
+                            }
+
+                            $.each(response, function (i, aRow) {
+                                setTimeout(f, term * i, aRow);
+
+                                if (i === response.length - 1) {
+                                    setTimeout(redraw, term * (i + 1));
+                                }
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            // AJAX 요청이 실패한 경우의 처리 코드
+                            console.error(error);
+                        }
+                    });
                 }
-            });
-        }
+
+                redraw();
+            },
+            error: function (xhr, status, error) {
+                // AJAX 요청이 실패한 경우의 처리 코드
+                alert("경로가 없습니다.");
+                console.error(error);
+            }
+        });
     }
+    // }
 }
 
 // world is a 2d array of integers (eg world[10][15] = 0)
