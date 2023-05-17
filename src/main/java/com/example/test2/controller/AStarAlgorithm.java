@@ -96,15 +96,100 @@ public class AStarAlgorithm {
         Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
         List<Node2> path = findPath(startNode, goalNode);
         ArrayList<int[]> resultList = new ArrayList<>();
-
-        if (path != null) {
-            for (Node2 node : path) {
+        if (path!=null){
+            for (Node2 node : path){
                 resultList.add(new int[]{node.x, node.y});
             }
             return resultList;
         } else {
             return null;
         }
+    }
+//    public boolean
+    void initWorld(int[][] world ){
+        this.GRID = world;
+        numCols = GRID[0].length;
+        numRows = GRID.length;
+    }
+
+    public ArrayList<int[]> getEndPoint(int[][] world, int[][] startPoint) {
+        initWorld(world);
+        Integer minDistance = Integer.MAX_VALUE;
+        int[] resultEndPoint = new int[2];
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+
+                int totalDistance = 0;
+                ArrayList<int[]> results = new ArrayList<>();
+
+                for (int[] start : startPoint) {
+                    ArrayList<int[]> results2 = getResult(start, new int[]{i,j});
+                    totalDistance += results2.size();
+//                    System.out.print(results2.size() + "    " + totalDistance + " ");
+                }
+
+                if (minDistance > totalDistance) {
+                    minDistance = totalDistance;
+                    resultEndPoint[0] = i;
+                    resultEndPoint[1] = j;
+                }
+            }
+        }
+
+        return new ArrayList<int[]>(){{
+            add(resultEndPoint);
+        }};
+//        return null;
+    }
+
+    public static void main(String[] args) {
+        int[] startPoint = {9,9};
+        int[] endPoint = {0,0};
+        int size = 9;
+        int[][] arr = new int[size][size];
+
+        int[][] startPoints = new int[][]{
+                new int[]{9,9},
+                new int[]{4,4},
+                new int[]{1,1},
+        };
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                arr[i][j] = 0;
+            }
+        }
+
+//        AStarAlgorithm a = new AStarAlgorithm();
+        AStarAlgorithm a = new AStarAlgorithm(arr);
+        ArrayList<int[]> result = a.getEndPoint(arr, startPoints);
+        for (int i = 0; i < result.size(); i++) {
+            for (int j = 0; j < result.get(i).length; j++) {
+                System.out.println(result.get(i)[j]);
+            }
+        }
+        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
+//        for (int[] nums :
+//                b) {
+//            for (int qwer :
+//                    nums) {
+//                System.out.print(qwer);
+//            }
+//            System.out.println();
+//        }
+
+//        Node2 startNode = new Node2(9, 9);
+//        Node2 goalNode = new Node2(1, 1);
+//
+//        List<Node2> path = findPath(startNode, goalNode);
+//        if (path != null) {
+//            System.out.println("경로를 찾았습니다!");
+//            for (Node2 node : path) {
+//                System.out.println("(" + node.x + ", " + node.y + ")");
+//            }
+//        } else {
+//            System.out.println("경로를 찾을 수 없습니다.");
+//        }
     }
 
     public static List<Node2> findPath(Node2 startNode, Node2 goalNode) {
@@ -194,7 +279,7 @@ public class AStarAlgorithm {
         return (dx + dy) * VERTICAL_HORIZONTAL_COST;
     }
 
-    private static int caculateEuclid(Node2 node, Node2 goalNode) {
+    private static int caculateEuclid(Node2 node, Node2 goalNode){
         int dx = Math.abs(node.x - goalNode.x);
         int dy = Math.abs(node.y - goalNode.y);
         return (int) (Math.sqrt(dx * dx + dy * dy) * VERTICAL_HORIZONTAL_COST); // 유클리드 거리 계산
