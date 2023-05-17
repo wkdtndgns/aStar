@@ -47,14 +47,14 @@ public class AStarAlgorithm {
 
     private static int[][] GRID = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-            {0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
-            {0, 1, 0, 1, 1, 1, 1, 0, 1, 0},
-            {0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
-            {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-            {0, 1, 0, 1, 0, 0, 1, 0, 1, 0},
-            {0, 1, 0, 1, 1, 1, 1, 0, 1, 0},
-            {0, 1, 0, 0, 0, 0, 1, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
@@ -64,12 +64,14 @@ public class AStarAlgorithm {
             {1, -1},  {1, 0},  {1, 1}
     };
 
+    private static int numRows = GRID.length;
+    private static int numCols = GRID[0].length;
     AStarAlgorithm(){}
     AStarAlgorithm(int[][] world){
         this.GRID = world;
+        numCols = GRID[0].length;
+        numRows = GRID.length;
     }
-    private static final int numRows = GRID.length;
-    private static final int numCols = GRID[0].length;
 
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint){
         Node2 startNode = new Node2(startPoint[0], startPoint[1]);
@@ -87,18 +89,42 @@ public class AStarAlgorithm {
     }
 
     public static void main(String[] args) {
-        Node2 startNode = new Node2(0, 0);
-        Node2 goalNode = new Node2(6, 5);
+        int[] startPoint = {9,9};
+        int[] endPoint = {0,0};
+        int size = 9;
+        int[][] arr = new int[size][size];
 
-        List<Node2> path = findPath(startNode, goalNode);
-        if (path != null) {
-            System.out.println("경로를 찾았습니다!");
-            for (Node2 node : path) {
-                System.out.println("(" + node.x + ", " + node.y + ")");
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                arr[i][j] = 0;
             }
-        } else {
-            System.out.println("경로를 찾을 수 없습니다.");
         }
+
+//        AStarAlgorithm a = new AStarAlgorithm();
+        AStarAlgorithm a = new AStarAlgorithm(arr);
+        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
+//        for (int[] nums :
+//                b) {
+//            for (int qwer :
+//                    nums) {
+//                System.out.print(qwer);
+//            }
+//            System.out.println();
+//        }
+
+//        Node2 startNode = new Node2(9, 9);
+//        Node2 goalNode = new Node2(1, 1);
+//
+//        List<Node2> path = findPath(startNode, goalNode);
+//        if (path != null) {
+//            System.out.println("경로를 찾았습니다!");
+//            for (Node2 node : path) {
+//                System.out.println("(" + node.x + ", " + node.y + ")");
+//            }
+//        } else {
+//            System.out.println("경로를 찾을 수 없습니다.");
+//        }
     }
 
     public static List<Node2> findPath(Node2 startNode, Node2 goalNode) {
