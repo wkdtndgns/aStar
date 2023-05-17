@@ -6,6 +6,16 @@
  */
 // A $( document ).ready() block.
 $(document).ready(function () {
+    $('#txtX').val(worldWidth);
+    $('#txtY').val(worldHeight);
+    $('#txtX, #txtY').change(function () {
+        worldWidth = $('#txtX').val();
+        worldHeight = $('#txtY').val();
+        canvas.width = worldWidth * tileWidth;
+        canvas.height = worldHeight * tileHeight;
+        createWorld();
+    });
+
     // 장애물 랜덤 생성
     $('#btnRandomWall').click(function () {
         for (var x = 0; x < worldWidth; x++) {

@@ -84,6 +84,8 @@ function createWorld() {
         }
     }
 
+    console.log(world);
+
     // calculate initial possible path
     // note: unlikely but possible to never find one...
     // currentPath = [];
