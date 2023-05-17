@@ -62,6 +62,7 @@ public class testRest {
 
         ArrayList<int[]> resultList = a.getResult(pathStart, pathEnd);
         int[][] result = resultList.toArray(new int[0][]);
+        System.out.println(resultList);
 //        System.out.println(b2.solve());
 //        System.out.println(d2.solve());
 //        System.out.println("1111" + a2.solve());

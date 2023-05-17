@@ -39,6 +39,17 @@ class Node2 implements Comparable<Node2> {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    public String toString() {
+        return "Node2{ " +
+                "x=" + x +", "+
+                "y=" + y +", "+
+                "g=" + g +", "+
+                "h=" + h +", "+
+                "f=" + f +" "+
+                '}';
+    }
 }
 
 public class AStarAlgorithm {
@@ -67,6 +78,9 @@ public class AStarAlgorithm {
     private static int numRows = GRID.length;
     private static int numCols = GRID[0].length;
 
+
+    private static  Map<Integer, int[]> scoreMap = new HashMap<>();
+
     AStarAlgorithm() {
     }
 
@@ -77,6 +91,7 @@ public class AStarAlgorithm {
     }
 
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
+        scoreMap = new HashMap<>();
         Node2 startNode = new Node2(startPoint[0], startPoint[1]);
         Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
         List<Node2> path = findPath(startNode, goalNode);
@@ -92,50 +107,10 @@ public class AStarAlgorithm {
         }
     }
 
-    public static void main(String[] args) {
-        int[] startPoint = {9, 9};
-        int[] endPoint = {0, 0};
-        int size = 9;
-        int[][] arr = new int[size][size];
-
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                arr[i][j] = 0;
-            }
-        }
-
-//        AStarAlgorithm a = new AStarAlgorithm();
-        AStarAlgorithm a = new AStarAlgorithm(arr);
-        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
-//        for (int[] nums :
-//                b) {
-//            for (int qwer :
-//                    nums) {
-//                System.out.print(qwer);
-//            }
-//            System.out.println();
-//        }
-
-//        Node2 startNode = new Node2(9, 9);
-//        Node2 goalNode = new Node2(1, 1);
-//
-//        List<Node2> path = findPath(startNode, goalNode);
-//        if (path != null) {
-//            System.out.println("경로를 찾았습니다!");
-//            for (Node2 node : path) {
-//                System.out.println("(" + node.x + ", " + node.y + ")");
-//            }
-//        } else {
-//            System.out.println("경로를 찾을 수 없습니다.");
-//        }
-    }
-
     public static List<Node2> findPath(Node2 startNode, Node2 goalNode) {
         PriorityQueue<Node2> openList = new PriorityQueue<>();
         Set<Node2> closedSet = new HashSet<>();
         Map<Node2, Integer> gScores = new HashMap<>();
-
         openList.add(startNode);
         gScores.put(startNode, 0);
 
@@ -148,19 +123,36 @@ public class AStarAlgorithm {
 
             closedSet.add(currentNode);
 
+            // 4방향, 8방향
             for (int[] direction : DIRECTIONS) {
                 int newX = currentNode.x + direction[0];
                 int newY = currentNode.y + direction[1];
+                int a[] ={newX,newY};
 
                 if (isValid(newX, newY)) {
                     Node2 neighbor = new Node2(newX, newY);
                     int gScore = gScores.get(currentNode) + getCost(currentNode, neighbor);
+                    scoreMap.put(gScore, a);
 
+                    gScores.forEach((x, y) -> {
+                        int[] arr1  = { x.x, x.y};
+                        System.out.print("arr : " + Arrays.toString(arr1));
+                        System.out.print("   score  : " + y);
+                        System.out.println();
+                    });
+
+                    // openList 출력
+                    for (Node2 node : openList) {
+                        System.out.println(node);
+                    }
+                    System.out.println("-----------------------------");
                     if (closedSet.contains(neighbor) && gScore >= gScores.get(neighbor)) {
                         continue;
                     }
 
+                    System.out.println();
                     if (!openList.contains(neighbor) || gScore < gScores.get(neighbor)) {
+//                        System.out.println("이웃에 값을 넣어줌");
                         neighbor.g = gScore;
                         neighbor.h = caculateEuclid(neighbor, goalNode);
                         neighbor.f = neighbor.g + neighbor.h;
@@ -211,6 +203,11 @@ public class AStarAlgorithm {
 
     private static boolean isValid(int x, int y) {
         return x >= 0 && x < numRows && y >= 0 && y < numCols && GRID[x][y] == 0;
+    }
+
+
+    public static Map<Integer, int[]> getScoreMap() {
+        return scoreMap;
     }
 }
 
