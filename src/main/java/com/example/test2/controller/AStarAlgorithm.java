@@ -113,26 +113,47 @@ public class AStarAlgorithm {
         numRows = GRID.length;
     }
 
+    public int calcDistance(ArrayList<int[]> paths){
+        int distance = 0;
+        for (int i = 0; i < paths.size() - 1; i++) {
+            distance += (paths.get(i)[0] + paths.get(i+1)[0]) + (paths.get(i)[1] + paths.get(i+1)[1]) == 2? DIAGONAL_COST:VERTICAL_HORIZONTAL_COST;
+        }
+        return distance;
+    }
     public ArrayList<int[]> getEndPoint(int[][] world, int[][] startPoint) {
         initWorld(world);
         Integer minDistance = Integer.MAX_VALUE;
         int[] resultEndPoint = new int[2];
+        int minDistance2 = Integer.MAX_VALUE;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
+                // 장애물 1이 있을 경우는 end포인트로 설정 불가능
+                if (this.GRID[i][j] == 1) continue;
 
                 int totalDistance = 0;
-                ArrayList<int[]> results = new ArrayList<>();
-
+//                ArrayList<int[]> results = new ArrayList<>();
+                boolean continueFlag = false;
+                ArrayList<Integer> distanceList = new ArrayList<>();
                 for (int[] start : startPoint) {
-                    ArrayList<int[]> results2 = getResult(start, new int[]{i, j});
-                    totalDistance += results2.size();
-//                    System.out.print(results2.size() + "    " + totalDistance + " ");
+                    if (i==start[0] && j==start[1]) continueFlag = true;
+                    ArrayList<int[]> results2 = getResult(start, new int[]{i,j});
+                    if (results2 == null) continueFlag = true;
+//                    totalDistance += results2.size();
+                    distanceList.add(calcDistance(results2));
+                    totalDistance += calcDistance(results2);
+//                    System.out.print(results2.size() + "    " + totalDistance + " | ");
                 }
+                if (continueFlag) continue;
+                if (minDistance >= totalDistance) {
+                    if (minDistance2 > Collections.max(distanceList) - Collections.min(distanceList)) {
+                        minDistance2 = Collections.max(distanceList) - Collections.min(distanceList);
 
-                if (minDistance > totalDistance) {
-                    minDistance = totalDistance;
-                    resultEndPoint[0] = i;
-                    resultEndPoint[1] = j;
+                        System.out.println(totalDistance);
+                        System.out.println(i + ", " + j);
+                        minDistance = totalDistance;
+                        resultEndPoint[0] = i;
+                        resultEndPoint[1] = j;
+                    }
                 }
             }
         }
@@ -153,6 +174,10 @@ public class AStarAlgorithm {
                 new int[]{9, 9},
                 new int[]{4, 4},
                 new int[]{1, 1},
+                new int[]{0,0},
+                new int[]{0,9},
+                new int[]{9,0},
+                new int[]{4,4}
         };
 
         for (int i = 0; i < size; i++) {
@@ -169,6 +194,28 @@ public class AStarAlgorithm {
                 System.out.println(result.get(i)[j]);
             }
         }
+//        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
+//        for (int[] nums :
+//                b) {
+//            for (int qwer :
+//                    nums) {
+//                System.out.print(qwer);
+//            }
+//            System.out.println();
+//        }
+
+//        Node2 startNode = new Node2(9, 9);
+//        Node2 goalNode = new Node2(1, 1);
+//
+//        List<Node2> path = findPath(startNode, goalNode);
+//        if (path != null) {
+//            System.out.println("경로를 찾았습니다!");
+//            for (Node2 node : path) {
+//                System.out.println("(" + node.x + ", " + node.y + ")");
+//            }
+//        } else {
+//            System.out.println("경로를 찾을 수 없습니다.");
+//        }
     }
 
     public static List<Node2> findPath(Node2 startNode, Node2 goalNode) {
