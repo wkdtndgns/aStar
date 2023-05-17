@@ -172,7 +172,6 @@ function canvasClick(e) {
             Math.floor(y / tileHeight)
         ];
 
-
     // now we know while tile we clicked
     // console.log('we clicked tile ' + cell[0] + ',' + cell[1]);
     let iDirection = $('#selOption').val();
@@ -180,14 +179,15 @@ function canvasClick(e) {
     let bHistory = $('#chkHistory').prop('checked');
     let sClick = document.getElementById('selClick').value
 
-
-
     if (bSetWall === true) {
         if (pathStart[0] == cell[0] && pathStart[1] == cell[1] || pathEnd[0] == cell[0] && pathEnd[1] == cell[1]) {
             alert('출발, 도착지점은 선택할 수 없습니다.');
             return true;
         } else {
             world[cell[0]][cell[1]] = 1;
+            currentPath = [];
+            pathStart = [0, 0];
+            pathEnd = [0, 0];
             redraw();
         }
         return true;
