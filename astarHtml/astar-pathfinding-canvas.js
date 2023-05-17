@@ -54,7 +54,7 @@ function onload() {
     ctx = canvas.getContext("2d");
     if (!ctx) alert('Hmm!');
     spritesheet = new Image();
-    spritesheet.src = 'spritesheet.png';
+    spritesheet.src = 'astar_img2.png';
     // the image above has been turned into a data url
     // so that no external files are required for
     // this web page - useful for included in a
@@ -86,22 +86,11 @@ function createWorld() {
 
     console.log(world);
 
-    // calculate initial possible path
-    // note: unlikely but possible to never find one...
-    // currentPath = [];
-    // while (currentPath.length == 0) {
-    //     pathStart = [Math.floor(Math.random() * worldWidth), Math.floor(Math.random() * worldHeight)];
-    //     pathEnd = [Math.floor(Math.random() * worldWidth), Math.floor(Math.random() * worldHeight)];
-    //     if (world[pathStart[0]][pathStart[1]] == 0)
-    //         currentPath = findPath(world, pathStart, pathEnd);
-    // }
     redraw();
 }
 
 function redraw() {
     if (!spritesheetLoaded) return;
-
-    console.log('redrawing...');
 
     var spriteNum = 0;
 
@@ -187,22 +176,29 @@ function canvasClick(e) {
 
     // now we know while tile we clicked
     // console.log('we clicked tile ' + cell[0] + ',' + cell[1]);
-
-    pathStart = pathEnd;
-    pathEnd = cell;
     let iDirection = $('#selOption').val();
     let bSetWall = $('#chkWall').prop('checked');
     let bHistory = $('#chkHistory').prop('checked');
-    // console.log(bSetWall);
-    // console.log('world', world);
-    // console.log('pathStart ', pathStart);
-    // console.log('pathEnd ', pathEnd);
-    // console.log(iDirection);
+    let sClick = $('#selClick').val();
 
     if (bSetWall === true) {
         world[cell[0]][cell[1]] = 1;
         redraw();
         return true;
+    }
+
+    switch (sClick) {
+        case 'a':
+            pathStart = cell;
+            pathEnd = pathStart;
+            break;
+        case 'b':
+            pathEnd = cell;
+            break;
+
+        default :
+            pathStart = cell;
+            break;
     }
 
     if (iDirection == 4) {
@@ -255,7 +251,12 @@ function canvasClick(e) {
                                     });
                                 }
 
-                                var term = 500;
+                                var term = 300;
+
+                                if (response.length > 10) {
+                                    term = 100;
+                                }
+
                                 $.each(response, function (i, aRow) {
                                     setTimeout(f, term * i, aRow);
 

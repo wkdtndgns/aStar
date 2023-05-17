@@ -113,13 +113,14 @@ public class AStarAlgorithm {
         numRows = GRID.length;
     }
 
-    public int calcDistance(ArrayList<int[]> paths){
+    public int calcDistance(ArrayList<int[]> paths) {
         int distance = 0;
         for (int i = 0; i < paths.size() - 1; i++) {
-            distance += (paths.get(i)[0] + paths.get(i+1)[0]) + (paths.get(i)[1] + paths.get(i+1)[1]) == 2? DIAGONAL_COST:VERTICAL_HORIZONTAL_COST;
+            distance += (paths.get(i)[0] + paths.get(i + 1)[0]) + (paths.get(i)[1] + paths.get(i + 1)[1]) == 2 ? DIAGONAL_COST : VERTICAL_HORIZONTAL_COST;
         }
         return distance;
     }
+
     public ArrayList<int[]> getEndPoint(int[][] world, int[][] startPoint) {
         initWorld(world);
         Integer minDistance = Integer.MAX_VALUE;
@@ -135,8 +136,8 @@ public class AStarAlgorithm {
                 boolean continueFlag = false;
                 ArrayList<Integer> distanceList = new ArrayList<>();
                 for (int[] start : startPoint) {
-                    if (i==start[0] && j==start[1]) continueFlag = true;
-                    ArrayList<int[]> results2 = getResult(start, new int[]{i,j});
+                    if (i == start[0] && j == start[1]) continueFlag = true;
+                    ArrayList<int[]> results2 = getResult(start, new int[]{i, j});
                     if (results2 == null) continueFlag = true;
 //                    totalDistance += results2.size();
                     distanceList.add(calcDistance(results2));
@@ -174,10 +175,10 @@ public class AStarAlgorithm {
                 new int[]{9, 9},
                 new int[]{4, 4},
                 new int[]{1, 1},
-                new int[]{0,0},
-                new int[]{0,9},
-                new int[]{9,0},
-                new int[]{4,4}
+                new int[]{0, 0},
+                new int[]{0, 9},
+                new int[]{9, 0},
+                new int[]{4, 4}
         };
 
         for (int i = 0; i < size; i++) {
@@ -250,12 +251,12 @@ public class AStarAlgorithm {
                     Node2 neighbor = new Node2(newX, newY);
                     int gScore = gScores.get(currentNode) + getCost(currentNode, neighbor);
 
-//                    gScores.forEach((x, y) -> {
-//                        int[] arr1  = { x.x, x.y};
-//                        System.out.print("arr : " + Arrays.toString(arr1));
-//                        System.out.print("   score  : " + y);
-//                        System.out.println();
-//                    });
+                    //                    gScores.forEach((x, y) -> {
+                    //                        int[] arr1  = { x.x, x.y};
+                    //                        System.out.print("arr : " + Arrays.toString(arr1));
+                    //                        System.out.print("   score  : " + y);
+                    //                        System.out.println();
+                    //                    });
 
                     if (closedSet.contains(neighbor) && gScore >= gScores.get(neighbor)) {
                         continue;

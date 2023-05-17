@@ -27,9 +27,17 @@
 <body onload='onload()' style="    background-color: #ebfff3;">
 <div>
     <h2>A star</h2>
+    <p>출발지점 선택 후 종료 지점 선택</p>
 </div>
 <div>
     <div style="margin-bottom: 10px">
+        선택:
+        <select id="selClick">
+            <option value="a">짱구</option>
+            <option value="b">흰둥이</option>
+        </select>
+
+        <span style="margin-right: 10px;"></span>
         가로: <input type="number" min="0" id="txtX" value="" style="width: 50px; margin-right: 10px;">
         세로: <input type="number" min="0" id="txtY" value="" style="width: 50px;">
     </div>
@@ -47,6 +55,7 @@
 <div style="margin : 20px;">
     <input type='button' id="btnRandomWall" value='장애물 랜덤'>
     <input type='button' id="btnResetWall" value='장애물 초기화'>
+    <input type='button' id="btnRest" value='경로 초기화'>
 </div>
 <div>
     <canvas id="gameCanvas"></canvas>

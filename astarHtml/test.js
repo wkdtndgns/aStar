@@ -26,10 +26,12 @@ $(document).ready(function () {
         }
         for (var x = 0; x < worldWidth; x++) {
             for (var y = 0; y < worldHeight; y++) {
+
                 if (Math.random() > 0.75) world[x][y] = 1;
             }
         }
-        redraw();
+
+        init();
     });
 
     // 장애물 초기화
@@ -40,6 +42,18 @@ $(document).ready(function () {
                 world[x][y] = 0;
             }
         }
-        redraw();
+
+        init();
     });
+
+    $('#btnRest').click(function () {
+        init();
+    })
+
+    function init() {
+        currentPath = [];
+        pathStart = [0, 0];
+        pathEnd = [0, 0];
+        redraw();
+    }
 });
