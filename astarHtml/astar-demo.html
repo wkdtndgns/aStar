@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    
+
     <title>test</title>
 
     <style>
@@ -21,15 +21,21 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script type='text/javascript' src='./astar-pathfinding-canvas.js'></script>
+    <script type='text/javascript' src='./test.js'></script>
 </head>
 <body onload='onload()'>
 <div>
     <h2>1조 과제</h2>
 </div>
+<div>
+    <select id="selOption">
+        <option value="4">4방향</option>
+        <option value="8">8방향</option>
+    </select>
+</div>
 <div style="margin : 20px;">
-    <input type='button' onClick='createWorld()' value='장애물 랜덤'>
+    <input type='button' id="btnRandomWall" value='장애물 랜덤'>
 </div>
 <div>
     <canvas id="gameCanvas"></canvas>
