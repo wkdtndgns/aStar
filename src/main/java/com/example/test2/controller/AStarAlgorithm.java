@@ -205,8 +205,6 @@ public class AStarAlgorithm {
     }
 
     public static void main(String[] args) {
-        int[] startPoint = {9, 9};
-        int[] endPoint = {0, 0};
         int size = 9;
         int[][] arr = new int[size][size];
 
@@ -227,9 +225,10 @@ public class AStarAlgorithm {
         ArrayList<int[]> result = a.getEndPoint(arr, startPoints);
         for (int i = 0; i < result.size(); i++) {
             for (int j = 0; j < result.get(i).length; j++) {
-                System.out.println(result.get(i)[j]);
+                System.out.print(result.get(i)[j]);
             }
         }
+        System.out.println();
 //        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
 //        for (int[] nums :
 //                b) {

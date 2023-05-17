@@ -255,7 +255,6 @@ function canvasClick(e) {
                             }
 
                             var term = 300;
-
                             if (response.length > 10) {
                                 term = 100;
                             }
