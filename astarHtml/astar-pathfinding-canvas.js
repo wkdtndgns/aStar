@@ -23,8 +23,10 @@ var spritesheetLoaded = false;
 var world = [[]];
 
 // size in the world in sprite tiles
-var worldWidth = 6;
-var worldHeight = 6;
+// 가로
+var worldWidth = 10;
+// 높이 
+var worldHeight = 7;
 
 // size of a tile in pixels
 var tileWidth = 32;
@@ -82,12 +84,12 @@ function createWorld() {
     }
 
     // 장애물 생성
-    // for (var x = 0; x < worldWidth; x++) {
-    //     for (var y = 0; y < worldHeight; y++) {
-    //         if (Math.random() > 0.75)
-    //             world[x][y] = 1;
-    //     }
-    // }
+    for (var x = 0; x < worldWidth; x++) {
+        for (var y = 0; y < worldHeight; y++) {
+            if (Math.random() > 0.75)
+                world[x][y] = 1;
+        }
+    }
 
     // calculate initial possible path
     // note: unlikely but possible to never find one...

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        int size = 6;
+        int size = 9;
         int[][] arr = new int[size][size];
 
 
