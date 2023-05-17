@@ -60,26 +60,30 @@ public class AStarAlgorithm {
 
     private static final int[][] DIRECTIONS = {
             {-1, -1}, {-1, 0}, {-1, 1},
-            {0, -1},           {0, 1},
-            {1, -1},  {1, 0},  {1, 1}
+            {0, -1}, {0, 1},
+            {1, -1}, {1, 0}, {1, 1}
     };
 
     private static int numRows = GRID.length;
     private static int numCols = GRID[0].length;
-    AStarAlgorithm(){}
-    AStarAlgorithm(int[][] world){
+
+    AStarAlgorithm() {
+    }
+
+    AStarAlgorithm(int[][] world) {
         this.GRID = world;
         numCols = GRID[0].length;
         numRows = GRID.length;
     }
 
-    public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint){
+    public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
         Node2 startNode = new Node2(startPoint[0], startPoint[1]);
         Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
         List<Node2> path = findPath(startNode, goalNode);
         ArrayList<int[]> resultList = new ArrayList<>();
-        if (path!=null){
-            for (Node2 node : path){
+
+        if (path != null) {
+            for (Node2 node : path) {
                 resultList.add(new int[]{node.x, node.y});
             }
             return resultList;
@@ -89,8 +93,8 @@ public class AStarAlgorithm {
     }
 
     public static void main(String[] args) {
-        int[] startPoint = {9,9};
-        int[] endPoint = {0,0};
+        int[] startPoint = {9, 9};
+        int[] endPoint = {0, 0};
         int size = 9;
         int[][] arr = new int[size][size];
 
@@ -198,7 +202,7 @@ public class AStarAlgorithm {
         return (dx + dy) * VERTICAL_HORIZONTAL_COST;
     }
 
-    private static int caculateEuclid(Node2 node, Node2 goalNode){
+    private static int caculateEuclid(Node2 node, Node2 goalNode) {
         int dx = Math.abs(node.x - goalNode.x);
         int dy = Math.abs(node.y - goalNode.y);
         return (int) (Math.sqrt(dx * dx + dy * dy) * VERTICAL_HORIZONTAL_COST); // 유클리드 거리 계산

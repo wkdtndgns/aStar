@@ -14,8 +14,8 @@ public class Main {
         }
 
 
-        int[] startPoint = {5, 5};
-        int[] endPoint = {1, 1};
+        int[] startPoint = {0, 0};
+        int[] endPoint = {2, 2};
         System.out.println("파라미터 ------------------------------");
         System.out.println("world");
         for (int[] a : arr) {
@@ -52,14 +52,7 @@ public class Main {
         AStarAlgorithm a = new AStarAlgorithm(arr);
         ArrayList<int[]> resultList = a.getResult(startPoint, endPoint);
 
-        int[][] result = resultList.toArray(new int[0][]);
-        for (int[] i : result) {
-            for (int f : i) {
-                System.out.print(f);
-            }
-            System.out.println();
-        }
-        System.out.println();
+        System.out.println(resultList);
 
 
 //        System.out.println(a.getRe);

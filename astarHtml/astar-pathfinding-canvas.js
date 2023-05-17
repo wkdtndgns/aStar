@@ -24,9 +24,9 @@ var world = [[]];
 
 // size in the world in sprite tiles
 // 가로
-var worldWidth = 10;
+var worldWidth = 15;
 // 높이
-var worldHeight = 7;
+var worldHeight = 15;
 
 // size of a tile in pixels
 var tileWidth = 32;

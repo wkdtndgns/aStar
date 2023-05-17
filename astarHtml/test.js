@@ -6,17 +6,14 @@
  */
 // A $( document ).ready() block.
 $(document).ready(function () {
+    // 장애물 랜덤 생성
     $('#btnRandomWall').click(function () {
-        // 장애물 생성
-        // create emptiness
         for (var x = 0; x < worldWidth; x++) {
             world[x] = [];
-
             for (var y = 0; y < worldHeight; y++) {
                 world[x][y] = 0;
             }
         }
-
         for (var x = 0; x < worldWidth; x++) {
             for (var y = 0; y < worldHeight; y++) {
                 if (Math.random() > 0.75) world[x][y] = 1;
@@ -25,12 +22,10 @@ $(document).ready(function () {
         redraw();
     });
 
+    // 장애물 초기화
     $('#btnResetWall').click(function () {
-        // 장애물 생성
-        // create emptiness
         for (var x = 0; x < worldWidth; x++) {
             world[x] = [];
-
             for (var y = 0; y < worldHeight; y++) {
                 world[x][y] = 0;
             }
