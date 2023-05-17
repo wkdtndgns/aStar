@@ -185,10 +185,17 @@ function canvasClick(e) {
     if (bSetWall === true) {
         if (pathStart[0] == cell[0] && pathStart[1] == cell[1] || pathEnd[0] == cell[0] && pathEnd[1] == cell[1]) {
             alert('출발, 도착지점은 선택할 수 없습니다.');
+            return true;
         } else {
             world[cell[0]][cell[1]] = 1;
             redraw();
         }
+        return true;
+    }
+
+
+    if ( world[cell[0]][cell[1]] === 1) {
+        alert('장애물은 선택할 수 없습니다.');
         return true;
     }
 
