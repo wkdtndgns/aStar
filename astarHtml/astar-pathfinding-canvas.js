@@ -23,8 +23,8 @@ var spritesheetLoaded = false;
 var world = [[]];
 
 // size in the world in sprite tiles
-var worldWidth = 4;
-var worldHeight = 4;
+var worldWidth = 6;
+var worldHeight = 6;
 
 // size of a tile in pixels
 var tileWidth = 32;
