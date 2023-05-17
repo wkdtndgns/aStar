@@ -230,10 +230,9 @@ public class AStarAlgorithm {
 
             System.out.println("---------- open list");
             System.out.println("current node " + currentNode.toString());
-
             openList.forEach(System.out::println);
-
             System.out.println("------------");
+
             List<int[]> li = new ArrayList<>();
             for (Node2 node : openList) {
                 int[] arr = {node.x, node.y, node.f};

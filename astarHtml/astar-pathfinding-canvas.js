@@ -231,7 +231,6 @@ function canvasClick(e) {
 
 
                     if (bHistory) {
-
                         $.ajax({
                             url: "http://localhost:8080/aStarHistory",
                             type: "POST",
@@ -256,10 +255,14 @@ function canvasClick(e) {
                                     });
                                 }
 
+                                var term = 500;
                                 $.each(response, function (i, aRow) {
-                                    setTimeout(f, 1000 * i, aRow);
+                                    setTimeout(f, term * i, aRow);
+
+                                    if (i === response.length - 1) {
+                                        setTimeout(redraw, term * (i + 1));
+                                    }
                                 });
-                                redraw();
                             },
                             error: function (xhr, status, error) {
                                 // AJAX 요청이 실패한 경우의 처리 코드
@@ -272,6 +275,7 @@ function canvasClick(e) {
                 },
                 error: function (xhr, status, error) {
                     // AJAX 요청이 실패한 경우의 처리 코드
+                    alert("경로가 없습니다.");
                     console.error(error);
                 }
             });
