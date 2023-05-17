@@ -19,6 +19,9 @@ public class testRest {
         int[] pathStart = requestData.getPathStart();
         int[] pathEnd = requestData.getPathEnd();
 
+        if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
+            return new int[][]{pathStart};
+        }
         // param toString
         System.out.println("파라미터 ------------------------------");
         System.out.println("world");
@@ -45,20 +48,27 @@ public class testRest {
         System.out.println("------------------------------");
 
 
-        Maze lab2 = new Maze(world, pathStart, pathEnd);
+//        Maze lab2 = new Maze(world, pathStart, pathEnd);
 //        System.out.println(lab2.toString());
         System.out.println(" 결과 ------------------------------");
-        BFS_Solver b2 = new BFS_Solver(lab2);
-        DFS_Solver d2 = new DFS_Solver(lab2);
-        AStarSolver a2 = new AStarSolver(lab2, true);
-        a2 = new AStarSolver(lab2, false);
+//        BFS_Solver b2 = new BFS_Solver(lab2);
+//        DFS_Solver d2 = new DFS_Solver(lab2);
+//        AStarSolver a2 = new AStarSolver(lab2, true);
+//        a2 = new AStarSolver(lab2, false);
 
-        System.out.println(b2.solve());
-        System.out.println(d2.solve());
-        System.out.println("1111" + a2.solve());
+//        int[] pathStart = {0,0};
+//        int[] pathEnd = {3,3};
+        AStarAlgorithm a = new AStarAlgorithm(world);
+
+        ArrayList<int[]> resultList = a.getResult(pathStart, pathEnd);
+        int[][] result = resultList.toArray(new int[0][]);
+//        System.out.println(b2.solve());
+//        System.out.println(d2.solve());
+//        System.out.println("1111" + a2.solve());
         System.out.println("------------------------------");
+
         // 응답 데이터 생성
-        int[][] result = {{0, 0}, {1, 0}, {1, 1}, {1, 2}, {1, 3}};
+//        int[][] result = {{0, 0}, {1, 0}, {1, 1}, {1, 2}, {1, 3}};
 
         return result;
     }

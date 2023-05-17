@@ -204,29 +204,34 @@ function canvasClick(e) {
     //     tileWidth, tileHeight,
     //     pathStart[0] * tileWidth, pathStart[1] * tileHeight,
     //     tileWidth, tileHeight);
-
-    $.ajax({
-        url: "http://localhost:8080/aStar",
-        type: "POST",
-        data: JSON.stringify({
-            world: world,
-            pathStart: pathStart,
-            pathEnd: pathEnd
-        }),
-        contentType: "application/json",
-        dataType: "json",
-        success: function (response) {
-            // 서버로부터 받은 응답 데이터를 처리하는 코드
-            console.log(response);
-            // 응답 데이터를 활용하여 필요한 작업 수행
-            currentPath = response
-            redraw();
-        },
-        error: function (xhr, status, error) {
-            // AJAX 요청이 실패한 경우의 처리 코드
-            console.error(error);
-        }
-    });
+    if(pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]){
+        currentPath = [pathStart];
+        
+        redraw();
+    }else{
+        $.ajax({
+            url: "http://localhost:8080/aStar",
+            type: "POST",
+            data: JSON.stringify({
+                world: world,
+                pathStart: pathStart,
+                pathEnd: pathEnd
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                // 서버로부터 받은 응답 데이터를 처리하는 코드
+                console.log(response);
+                // 응답 데이터를 활용하여 필요한 작업 수행
+                currentPath = response
+                redraw();
+            },
+            error: function (xhr, status, error) {
+                // AJAX 요청이 실패한 경우의 처리 코드
+                console.error(error);
+            }
+        });
+    }
 }
 
 // world is a 2d array of integers (eg world[10][15] = 0)

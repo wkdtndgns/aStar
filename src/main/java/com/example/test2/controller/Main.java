@@ -1,6 +1,7 @@
 package com.example.test2.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -13,15 +14,8 @@ public class Main {
                 arr[i][j] = 0;
             }
         }
-        int[] startPoint = new int[2];
-        for (int j = 0; j < 2; j++) {
-            startPoint[j] = 0;
-        }
-
-        int[] endPoint = new int[2];
-        for (int j = 0; j < 2; j++) {
-            endPoint[j] = 1;
-        }
+        int[] startPoint = {5,5};
+        int[] endPoint = {1,1};
         System.out.println("파라미터 ------------------------------");
         System.out.println("world");
         for (int[] a : arr) {
@@ -46,17 +40,32 @@ public class Main {
         System.out.println();
         System.out.println("------------------------------");
 
-        Maze lab2 = new Maze(arr, startPoint, endPoint);
-        BFS_Solver b2 = new BFS_Solver(lab2);
-        DFS_Solver d2 = new DFS_Solver(lab2);
-        AStarSolver a2 = new AStarSolver(lab2, true);
+//        Maze lab2 = new Maze(arr, startPoint, endPoint);
 
-        System.out.println(b2.solve());
-        System.out.println(d2.solve());
-        System.out.println("ss" + a2.solve());
-		a2 = new AStarSolver(lab2, false);
+//        BFS_Solver b2 = new BFS_Solver(lab2);
+//        DFS_Solver d2 = new DFS_Solver(lab2);
+//        AStarSolver a2 = new AStarSolver(lab2, true);
 
-		System.out.println(a2.solve());
+//        System.out.println(b2.solve());
+//        System.out.println(d2.solve());
+//        System.out.println("ss" + a2.solve());
+        AStarAlgorithm a = new AStarAlgorithm(arr);
+        ArrayList<int[]>  resultList=  a.getResult(startPoint,endPoint);
+
+        int[][] result = resultList.toArray(new int[0][]);
+        for (int[] i : result) {
+            for (int f : i) {
+                System.out.print(f);
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+
+//        System.out.println(a.getRe);
+//		a2 = new AStarSolver(lab2, false);
+//
+//		System.out.println(a2.solve());
 //		Square start1 = new Square(1, 0, "S");
 //		Square end1 = new Square(3, 4, "E");
 //

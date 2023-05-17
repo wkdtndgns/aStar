@@ -64,21 +64,21 @@ public class AStarAlgorithm {
             {1, -1},  {1, 0},  {1, 1}
     };
 
+    AStarAlgorithm(){}
     AStarAlgorithm(int[][] world){
         this.GRID = world;
     }
     private static final int numRows = GRID.length;
     private static final int numCols = GRID[0].length;
 
-    public ArrayList<Integer> getResult(Integer[] startPoint, Integer[] goalPoint){
+    public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint){
         Node2 startNode = new Node2(startPoint[0], startPoint[1]);
         Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
         List<Node2> path = findPath(startNode, goalNode);
-        ArrayList<Integer> resultList = new ArrayList<>();
+        ArrayList<int[]> resultList = new ArrayList<>();
         if (path!=null){
             for (Node2 node : path){
-                resultList.add(node.x);
-                resultList.add(node.y);
+                resultList.add(new int[]{node.x, node.y});
             }
             return resultList;
         } else {
