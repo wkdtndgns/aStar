@@ -84,6 +84,8 @@ function createWorld() {
         }
     }
 
+    console.log(world);
+
     redraw();
 }
 
@@ -96,7 +98,6 @@ function redraw() {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 지도 초기화 땅,장애물
     for (var x = 0; x < worldWidth; x++) {
         for (var y = 0; y < worldHeight; y++) {
 
@@ -125,6 +126,7 @@ function redraw() {
     // console.log('Current path length: ' + currentPath.length);
     // console.log(currentPath.length);
     for (rp = 0; rp < currentPath.length; rp++) {
+
         switch (rp) {
             case 0:
                 spriteNum = 2; // start
@@ -172,15 +174,12 @@ function canvasClick(e) {
             Math.floor(y / tileHeight)
         ];
 
-
     // now we know while tile we clicked
     // console.log('we clicked tile ' + cell[0] + ',' + cell[1]);
     let iDirection = $('#selOption').val();
     let bSetWall = $('#chkWall').prop('checked');
     let bHistory = $('#chkHistory').prop('checked');
-    let sClick = document.getElementById('selClick').value
-
-
+    let sClick = $('#selClick').val();
 
     if (bSetWall === true) {
         if (pathStart[0] == cell[0] && pathStart[1] == cell[1] || pathEnd[0] == cell[0] && pathEnd[1] == cell[1]) {
@@ -193,15 +192,14 @@ function canvasClick(e) {
     }
 
     switch (sClick) {
-        // 짱구
         case 'a':
             pathStart = cell;
             pathEnd = pathStart;
             break;
-        // 흰둥이
         case 'b':
             pathEnd = cell;
             break;
+
         default :
             pathStart = cell;
             break;
@@ -233,6 +231,8 @@ function canvasClick(e) {
                 // console.log(response);
                 // 응답 데이터를 활용하여 필요한 작업 수행
                 currentPath = response
+
+
                 if (bHistory) {
                     $.ajax({
                         url: "http://localhost:8080/aStarHistory",
@@ -274,6 +274,7 @@ function canvasClick(e) {
                         }
                     });
                 }
+
                 redraw();
             },
             error: function (xhr, status, error) {

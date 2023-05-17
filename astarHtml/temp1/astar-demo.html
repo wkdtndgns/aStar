@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>test</title>
@@ -19,11 +19,10 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script type='text/javascript' src='./astar-pathfinding-canvas.js'></script>
     <script type='text/javascript' src='./test.js'></script>
 </head>
-<body onload='onload()' style="background-color: #ebfff3;">
+<body onload='onload()' style="    background-color: #ebfff3;">
 <div>
     <h2>A star</h2>
     <p>출발지점 선택 후 종료 지점 선택</p>
@@ -55,10 +54,13 @@
     <input type='button' id="btnRandomWall" value='장애물 랜덤'>
     <input type='button' id="btnResetWall" value='장애물 초기화'>
     <input type='button' id="btnRest" value='경로 초기화'>
+    <input type='button' id="btnSubmit" value='경로 검색'>
+
 </div>
 <div>
     <canvas id="gameCanvas"></canvas>
 </div>
+
 </body>
 
 </html>

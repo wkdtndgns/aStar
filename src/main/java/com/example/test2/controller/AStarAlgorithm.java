@@ -113,6 +113,38 @@ public class AStarAlgorithm {
         }
     }
 
+
+    public List<ArrayList<int[]>> getResult1(int[] startPoint, List<int[]> goalPointList) {
+        List<ArrayList<int[]>> al = new ArrayList<>();
+
+        goalPointList.forEach((goalPoint) -> {
+            Node2 startNode = new Node2(startPoint[0], startPoint[1]);
+            Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
+            List<Node2> path = findPath(startNode, goalNode);
+            ArrayList<int[]> resultList = new ArrayList<>();
+            if (path != null) {
+                for (Node2 node : path) {
+                    resultList.add(new int[]{node.x, node.y});
+                }
+
+                al.add(resultList);
+//
+//                System.out.println("-----------result start ----------");
+//                for (int[] array : resultList) {
+//                    System.out.print(Arrays.toString(array));
+//                }
+//
+//                System.out.println();
+//                System.out.println("score : " + calcDistance(resultList));
+//                System.out.println("-----------result end ----------");
+            } else {
+                return;
+            }
+        });
+
+        return al;
+    }
+
     //    public boolean
     void initWorld(int[][] world) {
         this.GRID = world;
@@ -191,7 +223,7 @@ public class AStarAlgorithm {
         }
 
 //        AStarAlgorithm a = new AStarAlgorithm();
-        AStarAlgorithm a = new AStarAlgorithm(arr,8);
+        AStarAlgorithm a = new AStarAlgorithm(arr, 8);
         ArrayList<int[]> result = a.getEndPoint(arr, startPoints);
         for (int i = 0; i < result.size(); i++) {
             for (int j = 0; j < result.get(i).length; j++) {
@@ -232,11 +264,11 @@ public class AStarAlgorithm {
         while (!openList.isEmpty()) {
             Node2 currentNode = openList.poll();
 
-            System.out.println("---------- closed set");
-            for (Node2 node : closedSet) {
-                System.out.println(node);
-            }
-            System.out.println("---------- -------------");
+//            System.out.println("---------- closed set");
+//            for (Node2 node : closedSet) {
+//                System.out.println(node);
+//            }
+//            System.out.println("---------- -------------");
 
             if (currentNode.x == goalNode.x && currentNode.y == goalNode.y) {
                 return reconstructPath(currentNode);
@@ -279,10 +311,10 @@ public class AStarAlgorithm {
                 }
             }
 
-            System.out.println("---------- open list");
-            System.out.println("current node " + currentNode.toString());
-            openList.forEach(System.out::println);
-            System.out.println("------------");
+//            System.out.println("---------- open list");
+//            System.out.println("current node " + currentNode.toString());
+//            openList.forEach(System.out::println);
+//            System.out.println("------------");
 
             List<int[]> li = new ArrayList<>();
             for (Node2 node : openList) {

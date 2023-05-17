@@ -38,6 +38,11 @@ public class testRest {
         return result;
     }
 
+    @GetMapping("test")
+    @CrossOrigin(origins = "null")
+    public String test(){
+        return "dddd";
+    }
 
     @PostMapping("aStarHistory")
     @CrossOrigin(origins = "null")
