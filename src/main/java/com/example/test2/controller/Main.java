@@ -3,6 +3,7 @@ package com.example.test2.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -16,7 +17,7 @@ public class Main {
         }
 
         int[] startPoint = {0, 0};
-        int[] endPoint = {2, 2};
+        int[] endPoint = {3, 3};
 
         AStarAlgorithm a = new AStarAlgorithm(arr);
         ArrayList<int[]> resultList = a.getResult(startPoint, endPoint);
@@ -24,13 +25,21 @@ public class Main {
             System.out.println(Arrays.toString(array));
         }
 
-        Map<Integer, int[]> aa = a.getScoreMap();
+        List<List<int[]>> aa = a.getScoreMap();
+        System.out.println();
+        int i = 1;
+        for (List<int[]> outerList : aa) {
+            System.out.println("index:" + i);
+            System.out.println();
+            outerList.forEach((arr1) -> {
 
-//        aa.forEach((x, y) -> {
-//            System.out.print("score : " + x);
-//            System.out.print("       arr : " + Arrays.toString(y));
-//            System.out.println();
-//        });
+                System.out.print("       arr1: " + Arrays.toString(arr1));
+                System.out.println();
+            });
+
+            System.out.println();
+            i++;
+        }
 
 
     }

@@ -43,11 +43,11 @@ class Node2 implements Comparable<Node2> {
     @Override
     public String toString() {
         return "Node2{ " +
-                "x=" + x +", "+
-                "y=" + y +", "+
-                "g=" + g +", "+
-                "h=" + h +", "+
-                "f=" + f +" "+
+                "x=" + x + ", " +
+                "y=" + y + ", " +
+                "g=" + g + ", " +
+                "h=" + h + ", " +
+                "f=" + f + " " +
                 '}';
     }
 }
@@ -79,7 +79,7 @@ public class AStarAlgorithm {
     private static int numCols = GRID[0].length;
 
 
-    private static  Map<Integer, int[]> scoreMap = new HashMap<>();
+    private static List<List<int[]>> scoreMap = new ArrayList<>();
 
     AStarAlgorithm() {
     }
@@ -91,13 +91,13 @@ public class AStarAlgorithm {
     }
 
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
-        scoreMap = new HashMap<>();
+        scoreMap = new ArrayList<>();
         Node2 startNode = new Node2(startPoint[0], startPoint[1]);
         Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
         List<Node2> path = findPath(startNode, goalNode);
         ArrayList<int[]> resultList = new ArrayList<>();
-        if (path!=null){
-            for (Node2 node : path){
+        if (path != null) {
+            for (Node2 node : path) {
                 resultList.add(new int[]{node.x, node.y});
             }
             return resultList;
@@ -105,8 +105,9 @@ public class AStarAlgorithm {
             return null;
         }
     }
-//    public boolean
-    void initWorld(int[][] world ){
+
+    //    public boolean
+    void initWorld(int[][] world) {
         this.GRID = world;
         numCols = GRID[0].length;
         numRows = GRID.length;
@@ -123,7 +124,7 @@ public class AStarAlgorithm {
                 ArrayList<int[]> results = new ArrayList<>();
 
                 for (int[] start : startPoint) {
-                    ArrayList<int[]> results2 = getResult(start, new int[]{i,j});
+                    ArrayList<int[]> results2 = getResult(start, new int[]{i, j});
                     totalDistance += results2.size();
 //                    System.out.print(results2.size() + "    " + totalDistance + " ");
                 }
@@ -136,22 +137,22 @@ public class AStarAlgorithm {
             }
         }
 
-        return new ArrayList<int[]>(){{
+        return new ArrayList<int[]>() {{
             add(resultEndPoint);
         }};
 //        return null;
     }
 
     public static void main(String[] args) {
-        int[] startPoint = {9,9};
-        int[] endPoint = {0,0};
+        int[] startPoint = {9, 9};
+        int[] endPoint = {0, 0};
         int size = 9;
         int[][] arr = new int[size][size];
 
         int[][] startPoints = new int[][]{
-                new int[]{9,9},
-                new int[]{4,4},
-                new int[]{1,1},
+                new int[]{9, 9},
+                new int[]{4, 4},
+                new int[]{1, 1},
         };
 
         for (int i = 0; i < size; i++) {
@@ -168,28 +169,6 @@ public class AStarAlgorithm {
                 System.out.println(result.get(i)[j]);
             }
         }
-        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
-//        for (int[] nums :
-//                b) {
-//            for (int qwer :
-//                    nums) {
-//                System.out.print(qwer);
-//            }
-//            System.out.println();
-//        }
-
-//        Node2 startNode = new Node2(9, 9);
-//        Node2 goalNode = new Node2(1, 1);
-//
-//        List<Node2> path = findPath(startNode, goalNode);
-//        if (path != null) {
-//            System.out.println("경로를 찾았습니다!");
-//            for (Node2 node : path) {
-//                System.out.println("(" + node.x + ", " + node.y + ")");
-//            }
-//        } else {
-//            System.out.println("경로를 찾을 수 없습니다.");
-//        }
     }
 
     public static List<Node2> findPath(Node2 startNode, Node2 goalNode) {
@@ -202,6 +181,12 @@ public class AStarAlgorithm {
         while (!openList.isEmpty()) {
             Node2 currentNode = openList.poll();
 
+            System.out.println("---------- closed set");
+            for (Node2 node : closedSet) {
+                System.out.println(node);
+            }
+            System.out.println("---------- -------------");
+
             if (currentNode.x == goalNode.x && currentNode.y == goalNode.y) {
                 return reconstructPath(currentNode);
             }
@@ -212,30 +197,23 @@ public class AStarAlgorithm {
             for (int[] direction : DIRECTIONS) {
                 int newX = currentNode.x + direction[0];
                 int newY = currentNode.y + direction[1];
-                int a[] ={newX,newY};
+                int a[] = {newX, newY};
 
                 if (isValid(newX, newY)) {
                     Node2 neighbor = new Node2(newX, newY);
                     int gScore = gScores.get(currentNode) + getCost(currentNode, neighbor);
-                    scoreMap.put(gScore, a);
 
-                    gScores.forEach((x, y) -> {
-                        int[] arr1  = { x.x, x.y};
-                        System.out.print("arr : " + Arrays.toString(arr1));
-                        System.out.print("   score  : " + y);
-                        System.out.println();
-                    });
+//                    gScores.forEach((x, y) -> {
+//                        int[] arr1  = { x.x, x.y};
+//                        System.out.print("arr : " + Arrays.toString(arr1));
+//                        System.out.print("   score  : " + y);
+//                        System.out.println();
+//                    });
 
-                    // openList 출력
-                    for (Node2 node : openList) {
-                        System.out.println(node);
-                    }
-                    System.out.println("-----------------------------");
                     if (closedSet.contains(neighbor) && gScore >= gScores.get(neighbor)) {
                         continue;
                     }
 
-                    System.out.println();
                     if (!openList.contains(neighbor) || gScore < gScores.get(neighbor)) {
 //                        System.out.println("이웃에 값을 넣어줌");
                         neighbor.g = gScore;
@@ -249,6 +227,20 @@ public class AStarAlgorithm {
                     }
                 }
             }
+
+            System.out.println("---------- open list");
+            System.out.println("current node " + currentNode.toString());
+
+            openList.forEach(System.out::println);
+
+            System.out.println("------------");
+            List<int[]> li = new ArrayList<>();
+            for (Node2 node : openList) {
+                int[] arr = {node.x, node.y, node.f};
+                li.add(arr);
+            }
+
+            scoreMap.add(li);
         }
 
         return null;
@@ -279,7 +271,7 @@ public class AStarAlgorithm {
         return (dx + dy) * VERTICAL_HORIZONTAL_COST;
     }
 
-    private static int caculateEuclid(Node2 node, Node2 goalNode){
+    private static int caculateEuclid(Node2 node, Node2 goalNode) {
         int dx = Math.abs(node.x - goalNode.x);
         int dy = Math.abs(node.y - goalNode.y);
         return (int) (Math.sqrt(dx * dx + dy * dy) * VERTICAL_HORIZONTAL_COST); // 유클리드 거리 계산
@@ -291,7 +283,7 @@ public class AStarAlgorithm {
     }
 
 
-    public static Map<Integer, int[]> getScoreMap() {
+    public static List<List<int[]>> getScoreMap() {
         return scoreMap;
     }
 }

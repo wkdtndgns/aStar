@@ -192,6 +192,7 @@ function canvasClick(e) {
     pathEnd = cell;
     let iDirection = $('#selOption').val();
     let bSetWall = $('#chkWall').prop('checked');
+    let bHistory = $('#chkHistory').prop('checked');
     // console.log(bSetWall);
     // console.log('world', world);
     // console.log('pathStart ', pathStart);
@@ -222,11 +223,51 @@ function canvasClick(e) {
                 }),
                 contentType: "application/json",
                 dataType: "json",
-                success: function (response) {
+                success: async function (response) {
                     // 서버로부터 받은 응답 데이터를 처리하는 코드
-                    console.log(response);
+                    // console.log(response);
                     // 응답 데이터를 활용하여 필요한 작업 수행
                     currentPath = response
+
+
+                    if (bHistory) {
+
+                        $.ajax({
+                            url: "http://localhost:8080/aStarHistory",
+                            type: "POST",
+                            data: JSON.stringify({
+                                world: world,
+                                pathStart: pathStart,
+                                pathEnd: pathEnd
+                            }),
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (response) {
+                                // 서버로부터 받은 응답 데이터를 처리하는 코드
+                                // console.log(response);
+                                var f = function (aRow) {
+                                    $.each(aRow, function (j, arr) {
+                                        ctx.drawImage(spritesheet,
+                                            4 * tileWidth, 0,
+                                            tileWidth, tileHeight,
+                                            arr[0] * tileWidth,
+                                            arr[1] * tileHeight,
+                                            tileWidth, tileHeight);
+                                    });
+                                }
+
+                                $.each(response, function (i, aRow) {
+                                    setTimeout(f, 1000 * i, aRow);
+                                });
+                                redraw();
+                            },
+                            error: function (xhr, status, error) {
+                                // AJAX 요청이 실패한 경우의 처리 코드
+                                console.error(error);
+                            }
+                        });
+                    }
+
                     redraw();
                 },
                 error: function (xhr, status, error) {
