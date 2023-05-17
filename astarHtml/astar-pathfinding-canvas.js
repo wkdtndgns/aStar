@@ -188,13 +188,20 @@ function canvasClick(e) {
 
     pathStart = pathEnd;
     pathEnd = cell;
-
+    let iDirection = $('#selOption').val();
+    let bSetWall = $('#chkWall').prop('checked');
+    // console.log(bSetWall);
     // console.log('world', world);
-    console.log('pathStart ', pathStart);
-    console.log('pathEnd ', pathEnd);
+    // console.log('pathStart ', pathStart);
+    // console.log('pathEnd ', pathEnd);
+    // console.log(iDirection);
 
-    var iDirection = $('#selOption').val();
-    console.log(iDirection);
+    if (bSetWall === true) {
+        world[cell[0]][cell[1]] = 1;
+        redraw();
+        return true;
+    }
+
     if (iDirection == 4) {
         currentPath = findPath(world, pathStart, pathEnd);
         redraw();

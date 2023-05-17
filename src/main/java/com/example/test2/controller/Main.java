@@ -7,13 +7,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int size = 9;
         int[][] arr = new int[size][size];
-
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 arr[i][j] = 0;
             }
         }
+
+
         int[] startPoint = {5, 5};
         int[] endPoint = {1, 1};
         System.out.println("파라미터 ------------------------------");
@@ -40,14 +40,14 @@ public class Main {
         System.out.println();
         System.out.println("------------------------------");
 
-//        Maze lab2 = new Maze(arr, startPoint, endPoint);
+        Maze lab2 = new Maze(arr, startPoint, endPoint);
 
-//        BFS_Solver b2 = new BFS_Solver(lab2);
-//        DFS_Solver d2 = new DFS_Solver(lab2);
+        BFS_Solver b2 = new BFS_Solver(lab2);
+        DFS_Solver d2 = new DFS_Solver(lab2);
 //        AStarSolver a2 = new AStarSolver(lab2, true);
 
-//        System.out.println(b2.solve());
-//        System.out.println(d2.solve());
+        System.out.println(b2.solve());
+        System.out.println(d2.solve());
 //        System.out.println("ss" + a2.solve());
         AStarAlgorithm a = new AStarAlgorithm(arr);
         ArrayList<int[]> resultList = a.getResult(startPoint, endPoint);

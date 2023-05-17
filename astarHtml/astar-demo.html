@@ -29,13 +29,19 @@
     <h2>1조 과제</h2>
 </div>
 <div>
-    <select id="selOption">
-        <option value="4">4방향</option>
-        <option value="8">8방향</option>
-    </select>
+    <div style="margin-bottom: 10px">
+        <label> <input type="checkbox" id="chkWall"/> 장애물 생성</label>
+    </div>
+    <div>
+        <select id="selOption">
+            <option value="4">4방향</option>
+            <option value="8">8방향</option>
+        </select>
+    </div>
 </div>
 <div style="margin : 20px;">
     <input type='button' id="btnRandomWall" value='장애물 랜덤'>
+    <input type='button' id="btnResetWall" value='장애물 초기화'>
 </div>
 <div>
     <canvas id="gameCanvas"></canvas>

@@ -24,4 +24,17 @@ $(document).ready(function () {
         }
         redraw();
     });
+
+    $('#btnResetWall').click(function () {
+        // 장애물 생성
+        // create emptiness
+        for (var x = 0; x < worldWidth; x++) {
+            world[x] = [];
+
+            for (var y = 0; y < worldHeight; y++) {
+                world[x][y] = 0;
+            }
+        }
+        redraw();
+    });
 });
