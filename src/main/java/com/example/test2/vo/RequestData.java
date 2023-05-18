@@ -6,14 +6,15 @@ public class RequestData {
     private int[] pathEnd;
     private int direction;
 
-    public RequestData(int[][] world, int[] pathStart, int[] pathEnd, int direction) {
+    private int Heuristic;
+
+    public RequestData(int[][] world, int[] pathStart, int[] pathEnd, int direction, int heuristic) {
         this.world = world;
         this.pathStart = pathStart;
         this.pathEnd = pathEnd;
         this.direction = direction;
+        Heuristic = heuristic;
     }
-
-    private int[][] startMulti;
 
     // Getter와 Setter 생략
     public int[][] getWorld() {
@@ -46,5 +47,13 @@ public class RequestData {
 
     public void setDirection(int direction) {
         this.direction = direction;
+    }
+
+    public int getHeuristic() {
+        return Heuristic;
+    }
+
+    public void setHeuristic(int heuristic) {
+        Heuristic = heuristic;
     }
 }

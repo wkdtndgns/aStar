@@ -141,6 +141,7 @@ function canvasClick(e) {
     // now we know while tile we clicked
     // console.log('we clicked tile ' + cell[0] + ',' + cell[1]);
     let iDirection = $('#selOption').val();
+    let iHeuristic = $('#selDistance').val();
     let bSetWall = $('#chkWall').prop('checked');
     let bHistory = $('#chkHistory').prop('checked');
     let sClick = document.getElementById('selClick').value
@@ -192,7 +193,8 @@ function canvasClick(e) {
             world: world,
             pathStart: pathStart,
             pathEnd: pathEnd,
-            direction: iDirection
+            direction: iDirection,
+            heuristic : iHeuristic
         });
 
         $.ajax({

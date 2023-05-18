@@ -20,7 +20,7 @@ public class AStarApi {
         int[] pathStart = requestData.getPathStart();
         int[] pathEnd = requestData.getPathEnd();
         int direction = requestData.getDirection();
-
+        int heuristic = requestData.getHeuristic();
         // response
         ResponseData responseData = new ResponseData();
         if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
@@ -30,6 +30,7 @@ public class AStarApi {
 
         // 알고리즘 시작
         AStarAlgorithm a = new AStarAlgorithm(world, direction);
+        a.setHeuristic(heuristic);
         ArrayList<int[]> resultList = a.getResult(pathStart, pathEnd);
         int[][] result = resultList.toArray(new int[0][]);
 
