@@ -206,61 +206,41 @@ function canvasClick(e) {
         // 짱구
         case 'a':
             pathStart = cell;
-            pathEnd = pathStart;
+            spriteNum=2;
+            ctx.drawImage(spritesheet,
+                spriteNum * tileWidth, 0,
+                tileWidth, tileHeight,
+                cell[0] * tileWidth,
+                cell[1] * tileHeight,
+                tileWidth, tileHeight);
             break;
         // 유리
         case 'b':
-            pathEnd = cell;
+            pathStart = cell;
+            spriteNum=3;
+            ctx.drawImage(spritesheet,
+                spriteNum * tileWidth, 0,
+                tileWidth, tileHeight,
+                cell[0] * tileWidth,
+                cell[1] * tileHeight,
+                tileWidth, tileHeight);
+
             break;
         // 맹구
         case 'c':
-            pathEnd = cell;
+            pathStart = cell;
+            spriteNum=4;
+            ctx.drawImage(spritesheet,
+                spriteNum * tileWidth, 0,
+                tileWidth, tileHeight,
+                cell[0] * tileWidth,
+                cell[1] * tileHeight,
+                tileWidth, tileHeight);
             break;
         default :
             pathStart = cell;
             break;
     }
-
-    // if (iDirection == 4) {
-    //     currentPath = findPath(world, pathStart, pathEnd);
-    //     redraw();
-    // } else {
-    if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
-        currentPath = [pathStart];
-        redraw();
-    } else {
-        var data = JSON.stringify({
-            world: world,
-            pathStart: pathStart,
-            pathEnd: pathEnd,
-            direction: iDirection
-        });
-
-        $.ajax({
-            url: "http://localhost:8080/aStar",
-            type: "POST",
-            data: data,
-            contentType: "application/json",
-            dataType: "json",
-            success: async function (response) {
-                // 서버로부터 받은 응답 데이터를 처리하는 코드
-                // 응답 데이터를 활용하여 필요한 작업 수행
-                currentPath = response.path
-
-                let time = response.time;
-                $('#spnTime').text(time);
-                aStarHistory = response.history;
-                // 히스토리 보기 클릭시
-                redraw();
-            },
-            error: function (xhr, status, error) {
-                // AJAX 요청이 실패한 경우의 처리 코드
-                alert("경로가 없습니다.");
-                console.error(error);
-            }
-        });
-    }
-    // }
 }
 
 // world is a 2d array of integers (eg world[10][15] = 0)
