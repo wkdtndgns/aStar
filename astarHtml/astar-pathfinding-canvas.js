@@ -55,7 +55,7 @@ function onload() {
     ctx = canvas.getContext("2d");
     if (!ctx) alert('Hmm!');
     spritesheet = new Image();
-    spritesheet.src = 'astar_img2.png';
+    spritesheet.src = 'test7.png';
     // the image above has been turned into a data url
     // so that no external files are required for
     // this web page - useful for included in a
@@ -206,7 +206,7 @@ function canvasClick(e) {
             pathStart = cell;
             pathEnd = pathStart;
             break;
-        // 흰둥이
+        //
         case 'b':
             pathEnd = cell;
             break;
