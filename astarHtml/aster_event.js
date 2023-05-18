@@ -16,7 +16,10 @@ $(document).ready(function () {
         createWorld();
     });
 
-    // 장애물 랜덤 생성
+
+    /**
+     * 장애물 랜덤 생성
+     */
     $('#btnRandomWall').click(function () {
         for (var x = 0; x < worldWidth; x++) {
             world[x] = [];
@@ -34,7 +37,9 @@ $(document).ready(function () {
         init();
     });
 
-    // 장애물 초기화
+    /**
+     * 장애물 초기화
+     */
     $('#btnResetWall').click(function () {
         for (var x = 0; x < worldWidth; x++) {
             world[x] = [];
@@ -46,6 +51,9 @@ $(document).ready(function () {
         init();
     });
 
+    /**
+     * 경로 초기화
+     */
     $('#btnRest').click(function () {
         init();
     })
@@ -76,6 +84,9 @@ $(document).ready(function () {
         });
     })
 
+    /**
+     * 짱구 이동
+     */
     $('#btnMover').click(function () {
         function fMover(rp){
             var start = rp;
@@ -137,6 +148,4 @@ $(document).ready(function () {
         pathEnd = [0, 0];
         redraw();
     }
-
-
 });
