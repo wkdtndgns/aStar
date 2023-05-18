@@ -155,8 +155,16 @@ $(document).ready(function () {
         redraw();
     }
 
+    let busCell = [];
 
     $('#btnbusfind').click(function () {
+        ctx.drawImage(spritesheet,
+            0 * tileWidth, 0,
+            tileWidth, tileHeight,
+            busCell[0] * tileWidth,
+            busCell[1] * tileHeight,
+            tileWidth, tileHeight);
+
         console.log("Button cOlicked!");
         if (pathStart[0] === 15 || pathStart1[0] === 15 || pathStart2[0] === 15) {
             alert("세명 모두의 위치를 정해주세요");
@@ -176,6 +184,13 @@ $(document).ready(function () {
                 success: function (response) {
                     // 서버로부터 받은 응답 데이터를 처리하는 코드
                     console.log(response);
+                    busCell =response;
+                    ctx.drawImage(spritesheet,
+                        6 * tileWidth, 0,
+                        tileWidth, tileHeight,
+                        response[0] * tileWidth,
+                        response[1] * tileHeight,
+                        tileWidth, tileHeight);
                     // 응답 데이터를 활용하여 필요한 작업 수행
                 },
                 error: function (xhr, status, error) {

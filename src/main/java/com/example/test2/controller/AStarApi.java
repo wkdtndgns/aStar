@@ -55,7 +55,7 @@ public class AStarApi {
 //    }
 @PostMapping("/aStarMulti")
 @CrossOrigin(origins = "null")
-public String handleAStarMultiRequest(@RequestBody RequestData requestData) {
+public int[] handleAStarMultiRequest(@RequestBody RequestData requestData) {
     int[][] world= requestData.getWorld();
     int[] pathStart = requestData.getPathStart();
     int[] pathStart1 = requestData.getPathStart1();
@@ -88,70 +88,46 @@ public String handleAStarMultiRequest(@RequestBody RequestData requestData) {
 
     //
     System.out.println(pathStart.toString());
-
-    int size = 10;
+    int size = 9;
     int[][] arr = new int[size][size];
+
+    int[][] startPoints = new int[][]{
+            pathStart,
+            pathStart1,
+            pathStart2
+//            new int[]{9, 9},
+//            new int[]{9, 0},
+//            new int[]{0, 0},
+    };
+
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             arr[i][j] = 0;
         }
     }
 
-    int[] startPoint = {0, 0};
-    int[][] startPoints = new int[][]{
-            new int[]{9, 9},
-            new int[]{9, 0},
-            new int[]{0, 0},
-    };
-//    List<int[]> al = new ArrayList<>();
-//    al.add( new int[]{pathStart[0], pathStart[1]});
-//    al.add( new int[]{pathStart1[0], pathStart1[1]});
-//    al.add( new int[]{pathStart2[0], pathStart2[1]});
-//
-    AStarAlgorithm a = new AStarAlgorithm(world,8);
-//    List<ArrayList<int[]>> al1  =  a.getResultMulti(startPoint, al);
-//    al1.forEach((x)->{
-//        for (int[] array : x) {
-//            System.out.print(Arrays.toString(array));
-//        }
-//
-//        System.out.println();
-//        System.out.println("score : " + a.calcDistance(x));
-//        System.out.println();
-//    });
-    ArrayList<ArrayList<int[]>> al2 = a.getEndPoint(world, startPoints);
-    for (int i = 0; i < al2.size(); i++) {
-        for (int j = 0; j < al2.get(i).size(); j++) {
-            for (int k = 0; k < al2.get(i).get(k).length; k++) {
-                System.out.print(al2.get(i).get(k)[k] + ", ");
+//        AStarAlgorithm a = new AStarAlgorithm();
+    // 휴리스틱 함수 선택 인덱스 0 : 맨허튼, 1 : 유클리드
+    AStarAlgorithm a = new AStarAlgorithm(world, 8);
+    int heuristicIndex = 0;
+    a.setHeuristic(heuristicIndex);
+    long start = System.nanoTime();
+    ArrayList<ArrayList<int[]>> result = a.getEndPoint(world, startPoints);
+    long end = System.nanoTime();
+    System.out.println("휴리스틱 인덱스" + heuristicIndex + " : " + (end - start));
+    for (int i = 0; i < result.size(); i++) {
+        for (int j = 0; j < result.get(i).size(); j++) {
+            for (int k = 0; k < result.get(i).get(j).length; k++) {
+                System.out.print(result.get(i).get(j)[k] + ", ");
             }
-            System.out.print(" | ");
+            System.out.print(" ");
         }
         System.out.println();
     }
 
-
-//        for (int[] array : resultList) {
-//            System.out.println(Arrays.toString(array));
-//        }
-//
-//        List<List<int[]>> aa = a.getScoreMap();
-//        System.out.println();
-//        int i = 1;
-//        for (List<int[]> outerList : aa) {
-//            System.out.println("index:" + i);
-//            System.out.println();
-//            outerList.forEach((arr1) -> {
-//
-//                System.out.print("       arr1: " + Arrays.toString(arr1));
-//                System.out.println();
-//            });
-//
-//            System.out.println();
-//            i++;
-//        }
-
-
-    return "223";
+    return new int[]{
+            result.get(0).get(result.get(0).size()-1)[0],
+            result.get(0).get(result.get(0).size()-1)[1]
+    };
 }
 }
