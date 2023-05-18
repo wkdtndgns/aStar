@@ -138,6 +138,12 @@ $(document).ready(function () {
         var term = 300;
         for (rp = 0; rp < currentPath.length; rp++) {
             setTimeout(fMover, term * rp, rp);
+
+            if(currentPath.length-1 === rp){
+                setTimeout(function () {$('#imgFind').fadeIn()}, term * (rp+1), rp);
+                setTimeout(function () {$('#imgFind').fadeOut()}, term * (rp+10), rp);
+
+            }
         }
         pathStart = pathEnd;
     })
