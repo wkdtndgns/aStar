@@ -22,8 +22,14 @@ public class test1 {
         }
 
 //        AStarAlgorithm a = new AStarAlgorithm();
+        // 휴리스틱 함수 선택 인덱스 0 : 맨허튼, 1 : 유클리드
         AStarAlgorithm a = new AStarAlgorithm(arr, 8);
+        int heuristicIndex = 0;
+        a.setHeuristic(heuristicIndex);
+        long start = System.nanoTime();
         ArrayList<ArrayList<int[]>> result = a.getEndPoint(arr, startPoints);
+        long end = System.nanoTime();
+        System.out.println("휴리스틱 인덱스" + heuristicIndex + " : " + (end - start));
         for (int i = 0; i < result.size(); i++) {
             for (int j = 0; j < result.get(i).size(); j++) {
                 for (int k = 0; k < result.get(i).get(j).length; k++) {

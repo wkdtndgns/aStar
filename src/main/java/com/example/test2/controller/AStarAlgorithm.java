@@ -84,6 +84,7 @@ public class AStarAlgorithm {
     private static int numRows = GRID.length;
     private static int numCols = GRID[0].length;
 
+    private static int heuristicIndex = 0;
     private static long time;
     private static List<List<int[]>> scoreMap = new ArrayList<>();
 
@@ -111,13 +112,13 @@ public class AStarAlgorithm {
      * @return
      */
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         scoreMap = new ArrayList<>();
         Node startNode = new Node(startPoint[0], startPoint[1]);
         Node goalNode = new Node(goalPoint[0], goalPoint[1]);
         List<Node> path = findPath(startNode, goalNode);
         ArrayList<int[]> resultList = new ArrayList<>();
-        long end = System.currentTimeMillis();
+        long end = System.nanoTime();
         // 시간 저장
         time = end - start;
         if (path != null) {
@@ -151,15 +152,6 @@ public class AStarAlgorithm {
                 }
 
                 al.add(resultList);
-//
-//                System.out.println("-----------result start ----------");
-//                for (int[] array : resultList) {
-//                    System.out.print(Arrays.toString(array));
-//                }
-//
-//                System.out.println();
-//                System.out.println("score : " + calcDistance(resultList));
-//                System.out.println("-----------result end ----------");
             } else {
                 return;
             }
@@ -168,12 +160,21 @@ public class AStarAlgorithm {
         return al;
     }
 
-    //    public boolean
+    /**
+     * 지도 초기화
+     * @param world
+     */
     void initWorld(int[][] world) {
         this.GRID = world;
         numCols = GRID[0].length;
         numRows = GRID.length;
     }
+
+    /**
+     * path 길이 측정
+     * @param paths
+     * @return
+     */
 
     public int calcDistance(ArrayList<int[]> paths) {
         int distance = 0;
@@ -183,6 +184,13 @@ public class AStarAlgorithm {
         return distance;
     }
 
+
+    /**
+     * 각 포인트 중간 지점 search
+     * @param world
+     * @param startPoint
+     * @return
+     */
     public ArrayList<ArrayList<int[]>> getEndPoint(int[][] world, int[][] startPoint) {
         initWorld(world);
         Integer minDistance = Integer.MAX_VALUE;
@@ -238,12 +246,6 @@ public class AStarAlgorithm {
         while (!openList.isEmpty()) {
             Node currentNode = openList.poll();
 
-//            System.out.println("---------- closed set");
-//            for (Node node : closedSet) {
-//                System.out.println(node);
-//            }
-//            System.out.println("---------- -------------");
-
             if (currentNode.x == goalNode.x && currentNode.y == goalNode.y) {
                 return reconstructPath(currentNode);
             }
@@ -260,13 +262,6 @@ public class AStarAlgorithm {
                     Node neighbor = new Node(newX, newY);
                     int gScore = gScores.get(currentNode) + getCost(currentNode, neighbor);
 
-                    //                    gScores.forEach((x, y) -> {
-                    //                        int[] arr1  = { x.x, x.y};
-                    //                        System.out.print("arr : " + Arrays.toString(arr1));
-                    //                        System.out.print("   score  : " + y);
-                    //                        System.out.println();
-                    //                    });
-
                     if (closedSet.contains(neighbor) && gScore >= gScores.get(neighbor)) {
                         continue;
                     }
@@ -274,7 +269,11 @@ public class AStarAlgorithm {
                     if (!openList.contains(neighbor) || gScore < gScores.get(neighbor)) {
 //                        System.out.println("이웃에 값을 넣어줌");
                         neighbor.g = gScore;
-                        neighbor.h = caculateEuclid(neighbor, goalNode);
+                        if (heuristicIndex == 0){
+                            neighbor.h = calculateHeuristic(neighbor, goalNode);
+                        } else if (heuristicIndex == 1) {
+                            neighbor.h = caculateEuclid(neighbor, goalNode);
+                        }
                         neighbor.f = neighbor.g + neighbor.h;
                         neighbor.parent = currentNode;
 
@@ -285,10 +284,6 @@ public class AStarAlgorithm {
                 }
             }
 
-//            System.out.println("---------- open list");
-//            System.out.println("current node " + currentNode.toString());
-//            openList.forEach(System.out::println);
-//            System.out.println("------------");
 
             List<int[]> li = new ArrayList<>();
             for (Node node : openList) {
@@ -300,6 +295,19 @@ public class AStarAlgorithm {
         }
 
         return null;
+    }
+    public void setHeuristic(int index){
+        switch (index){
+            case 0:
+                this.heuristicIndex = 0;
+                break;
+            case 1:
+                this.heuristicIndex = 1;
+                break;
+            default:
+                this.heuristicIndex = 0;
+                break;
+        }
     }
 
     private static List<Node> reconstructPath(Node currentNode) {
