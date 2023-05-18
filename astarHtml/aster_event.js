@@ -154,4 +154,21 @@ $(document).ready(function () {
         pathEnd = [0, 0];
         redraw();
     }
+
+
+    $('#btnbusfind').click(function () {
+        console.log("Button cOlicked!");
+        if (pathStart[0] === 15 || pathStart1[0] === 15 || pathStart2[0] === 15) {
+            alert("세명 모두의 위치를 정해주세요");
+        }
+        else{
+            alert("경로찾기 시작 ")
+        }
+        /*
+        * path start,1,2가 전부 값이 존재하면
+        * 통신 시작
+        * 하나라도 존재하지 않으면 alert ( 세명 모두의 위치를 정해주세요)
+        * */
+    })
+
 });

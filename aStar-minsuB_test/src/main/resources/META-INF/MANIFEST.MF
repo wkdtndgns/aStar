@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+com.example.test2.controller.Main-Class: com.example.test2.Test2Application
+
