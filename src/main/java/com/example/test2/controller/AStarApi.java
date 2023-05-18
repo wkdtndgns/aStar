@@ -39,15 +39,4 @@ public class AStarApi {
         responseData.setTime(a.getTime());
         return responseData;
     }
-
-    @PostMapping("aStar")
-    @CrossOrigin(origins = "null")
-    public int[] aStarMulti(@RequestBody RequestData requestData) throws IOException {
-        // 받은 요청 데이터 처리
-        int[][] startMulti = requestData.getStartMulti();
-        System.out.println(startMulti);
-
-        return new int[]{0,1};
-    }
-
 }

@@ -6,6 +6,13 @@ public class RequestData {
     private int[] pathEnd;
     private int direction;
 
+    public RequestData(int[][] world, int[] pathStart, int[] pathEnd, int direction) {
+        this.world = world;
+        this.pathStart = pathStart;
+        this.pathEnd = pathEnd;
+        this.direction = direction;
+    }
+
     private int[][] startMulti;
 
     // Getter와 Setter 생략
@@ -39,13 +46,5 @@ public class RequestData {
 
     public void setDirection(int direction) {
         this.direction = direction;
-    }
-
-    public int[][] getStartMulti() {
-        return startMulti;
-    }
-
-    public void setStartMulti(int[][] startMulti) {
-        this.startMulti = startMulti;
     }
 }
