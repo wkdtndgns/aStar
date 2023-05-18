@@ -162,7 +162,27 @@ $(document).ready(function () {
             alert("세명 모두의 위치를 정해주세요");
         }
         else{
-            alert("경로찾기 시작 ")
+            $.ajax({
+                url: "http://localhost:8080/aStarMulti",
+                type: "POST",
+                data: JSON.stringify({
+                    world :world,
+                    pathStart: pathStart,
+                    pathStart1: pathStart1,
+                    pathStart2: pathStart2
+                }),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    // 서버로부터 받은 응답 데이터를 처리하는 코드
+                    console.log(response);
+                    // 응답 데이터를 활용하여 필요한 작업 수행
+                },
+                error: function (xhr, status, error) {
+                    // AJAX 요청이 실패한 경우의 처리 코드
+                    console.error(error);
+                }
+            });
         }
         /*
         * path start,1,2가 전부 값이 존재하면

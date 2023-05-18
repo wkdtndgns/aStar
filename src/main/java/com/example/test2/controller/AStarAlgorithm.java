@@ -215,7 +215,6 @@ public class AStarAlgorithm {
 
                     distanceList.add(calcDistance(results2));
                     totalDistance += calcDistance(results2);
-
                 }
 
                 if (!continueFlag && minDistance >= totalDistance) {

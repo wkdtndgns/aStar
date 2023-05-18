@@ -3,6 +3,8 @@ package com.example.test2.vo;
 public class RequestData {
     private int[][] world;
     private int[] pathStart;
+    private int[] pathStart1;
+    private int[] pathStart2;
     private int[] pathEnd;
     private int direction;
 
@@ -28,7 +30,12 @@ public class RequestData {
     public int[] getPathStart() {
         return pathStart;
     }
-
+    public int[] getPathStart1() {
+        return pathStart1;
+    }
+    public int[] getPathStart2() {
+        return pathStart2;
+    }
     public void setPathStart(int[] pathStart) {
         this.pathStart = pathStart;
     }
