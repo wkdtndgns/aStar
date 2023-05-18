@@ -148,8 +148,26 @@ function canvasClick(e) {
     pathStart = pathEnd;
     pathEnd = cell;
 
-    console.log('pathStart ', pathStart);
-    console.log('pathEnd ', pathEnd);
+  
+    if (world[cell[0]][cell[1]] === 1) {
+        alert('장애물은 선택할 수 없습니다.');
+        return true;
+    }
+
+    switch (sClick) {
+        // 짱구
+        case 'a':
+            pathStart = cell;
+            pathEnd = pathStart;
+            break;
+        //
+        case 'b':
+            pathEnd = cell;
+            break;
+        default :
+            pathStart = cell;
+            break;
+    }
 
     var iDirection = $('#selOption').val();
     console.log(iDirection);
