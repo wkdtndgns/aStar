@@ -36,6 +36,7 @@ var tileHeight = 32;
 var pathStart = [worldWidth, worldHeight];
 var pathEnd = [0, 0];
 var currentPath = [];
+var aStarHistory;
 
 // ensure that concole.log doesn't cause errors
 if (typeof console == "undefined") var console = {
@@ -54,7 +55,7 @@ function onload() {
     ctx = canvas.getContext("2d");
     if (!ctx) alert('Hmm!');
     spritesheet = new Image();
-    spritesheet.src = 'astar_img2.png';
+    spritesheet.src = '/img/astar_img2.png';
     // the image above has been turned into a data url
     // so that no external files are required for
     // this web page - useful for included in a
@@ -194,7 +195,7 @@ function canvasClick(e) {
     }
 
 
-    if ( world[cell[0]][cell[1]] === 1) {
+    if (world[cell[0]][cell[1]] === 1) {
         alert('장애물은 선택할 수 없습니다.');
         return true;
     }
@@ -237,49 +238,13 @@ function canvasClick(e) {
             dataType: "json",
             success: async function (response) {
                 // 서버로부터 받은 응답 데이터를 처리하는 코드
-                // console.log(response);
                 // 응답 데이터를 활용하여 필요한 작업 수행
-                currentPath = response
-                if (bHistory) {
-                    $.ajax({
-                        url: "http://localhost:8080/aStarHistory",
-                        type: "POST",
-                        data: data,
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function (response) {
-                            // 서버로부터 받은 응답 데이터를 처리하는 코드
-                            // console.log(response);
-                            var f = function (aRow) {
-                                $.each(aRow, function (j, arr) {
-                                    ctx.drawImage(spritesheet,
-                                        4 * tileWidth, 0,
-                                        tileWidth, tileHeight,
-                                        arr[0] * tileWidth,
-                                        arr[1] * tileHeight,
-                                        tileWidth, tileHeight);
-                                });
-                            }
+                currentPath = response.path
 
-                            var term = 300;
-                            if (response.length > 10) {
-                                term = 100;
-                            }
-
-                            $.each(response, function (i, aRow) {
-                                setTimeout(f, term * i, aRow);
-
-                                if (i === response.length - 1) {
-                                    setTimeout(redraw, term * (i + 1));
-                                }
-                            });
-                        },
-                        error: function (xhr, status, error) {
-                            // AJAX 요청이 실패한 경우의 처리 코드
-                            console.error(error);
-                        }
-                    });
-                }
+                let time = response.time;
+                $('#spnTime').text(time);
+                aStarHistory = response.history;
+                // 히스토리 보기 클릭시
                 redraw();
             },
             error: function (xhr, status, error) {
