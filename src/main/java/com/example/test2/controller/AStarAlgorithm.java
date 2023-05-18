@@ -1,15 +1,16 @@
 package com.example.test2.controller;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
-class Node2 implements Comparable<Node2> {
+class Node implements Comparable<Node> {
     int x, y; // 노드의 좌표
     int g; // 시작 노드로부터의 비용
     int h; // 목표 노드까지의 예상 비용
     int f; // 총 비용 (g + h)
-    Node2 parent; // 이전 노드
+    Node parent; // 이전 노드
 
-    public Node2(int x, int y) {
+    public Node(int x, int y) {
         this.x = x;
         this.y = y;
         g = 0;
@@ -19,7 +20,7 @@ class Node2 implements Comparable<Node2> {
     }
 
     @Override
-    public int compareTo(Node2 other) {
+    public int compareTo(Node other) {
         return Integer.compare(this.f, other.f);
     }
 
@@ -31,7 +32,7 @@ class Node2 implements Comparable<Node2> {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        Node2 other = (Node2) obj;
+        Node other = (Node) obj;
         return x == other.x && y == other.y;
     }
 
@@ -42,7 +43,7 @@ class Node2 implements Comparable<Node2> {
 
     @Override
     public String toString() {
-        return "Node2{ " +
+        return "Node{ " +
                 "x=" + x + ", " +
                 "y=" + y + ", " +
                 "g=" + g + ", " +
@@ -99,12 +100,12 @@ public class AStarAlgorithm {
 
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
         scoreMap = new ArrayList<>();
-        Node2 startNode = new Node2(startPoint[0], startPoint[1]);
-        Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
-        List<Node2> path = findPath(startNode, goalNode);
+        Node startNode = new Node(startPoint[0], startPoint[1]);
+        Node goalNode = new Node(goalPoint[0], goalPoint[1]);
+        List<Node> path = findPath(startNode, goalNode);
         ArrayList<int[]> resultList = new ArrayList<>();
         if (path != null) {
-            for (Node2 node : path) {
+            for (Node node : path) {
                 resultList.add(new int[]{node.x, node.y});
             }
             return resultList;
@@ -118,12 +119,12 @@ public class AStarAlgorithm {
         List<ArrayList<int[]>> al = new ArrayList<>();
 
         goalPointList.forEach((goalPoint) -> {
-            Node2 startNode = new Node2(startPoint[0], startPoint[1]);
-            Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
-            List<Node2> path = findPath(startNode, goalNode);
+            Node startNode = new Node(startPoint[0], startPoint[1]);
+            Node goalNode = new Node(goalPoint[0], goalPoint[1]);
+            List<Node> path = findPath(startNode, goalNode);
             ArrayList<int[]> resultList = new ArrayList<>();
             if (path != null) {
-                for (Node2 node : path) {
+                for (Node node : path) {
                     resultList.add(new int[]{node.x, node.y});
                 }
 
@@ -160,48 +161,50 @@ public class AStarAlgorithm {
         return distance;
     }
 
-    public ArrayList<int[]> getEndPoint(int[][] world, int[][] startPoint) {
+    public ArrayList<ArrayList<int[]>> getEndPoint(int[][] world, int[][] startPoint) {
         initWorld(world);
         Integer minDistance = Integer.MAX_VALUE;
-        int[] resultEndPoint = new int[2];
-        int minDistance2 = Integer.MAX_VALUE;
+
+        int minDistanceDiff = Integer.MAX_VALUE;
+        ArrayList<ArrayList<int[]>> tempResult = new ArrayList<>();
+        ArrayList<ArrayList<int[]>> results = new ArrayList<>();
+
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 // 장애물 1이 있을 경우는 end포인트로 설정 불가능
                 if (this.GRID[i][j] == 1) continue;
 
                 int totalDistance = 0;
-//                ArrayList<int[]> results = new ArrayList<>();
                 boolean continueFlag = false;
                 ArrayList<Integer> distanceList = new ArrayList<>();
                 for (int[] start : startPoint) {
                     if (i == start[0] && j == start[1]) continueFlag = true;
                     ArrayList<int[]> results2 = getResult(start, new int[]{i, j});
+                    tempResult.add(results2);
                     if (results2 == null) continueFlag = true;
-//                    totalDistance += results2.size();
+
                     distanceList.add(calcDistance(results2));
                     totalDistance += calcDistance(results2);
-//                    System.out.print(results2.size() + "    " + totalDistance + " | ");
-                }
-                if (continueFlag) continue;
-                if (minDistance >= totalDistance) {
-                    if (minDistance2 > Collections.max(distanceList) - Collections.min(distanceList)) {
-                        minDistance2 = Collections.max(distanceList) - Collections.min(distanceList);
 
-                        System.out.println(totalDistance);
-                        System.out.println(i + ", " + j);
+                }
+
+                if (!continueFlag && minDistance >= totalDistance) {
+                    int diff = Collections.max(distanceList) - Collections.min(distanceList);
+                    if (minDistanceDiff > diff) {
+                        minDistanceDiff = diff;
+
                         minDistance = totalDistance;
-                        resultEndPoint[0] = i;
-                        resultEndPoint[1] = j;
+                        results.clear();
+                        for (int k = 0; k < 3; k++) {
+                            results.add(tempResult.get(tempResult.size()-k -1));
+                        }
+
                     }
                 }
             }
         }
 
-        return new ArrayList<int[]>() {{
-            add(resultEndPoint);
-        }};
-//        return null;
+        return results;
     }
 
     public static void main(String[] args) {
@@ -222,13 +225,16 @@ public class AStarAlgorithm {
 
 //        AStarAlgorithm a = new AStarAlgorithm();
         AStarAlgorithm a = new AStarAlgorithm(arr, 8);
-        ArrayList<int[]> result = a.getEndPoint(arr, startPoints);
+        ArrayList<ArrayList<int[]>> result = a.getEndPoint(arr, startPoints);
         for (int i = 0; i < result.size(); i++) {
-            for (int j = 0; j < result.get(i).length; j++) {
-                System.out.print(result.get(i)[j]);
+            for (int j = 0; j < result.get(i).size(); j++) {
+                for (int k = 0; k < result.get(i).get(j).length; k++) {
+                    System.out.print(result.get(i).get(j)[k] + ", ");
+                }
+                System.out.print(" | ");
             }
-        }
         System.out.println();
+        }
 //        ArrayList<int[]> b = a.getResult(startPoint, endPoint);
 //        for (int[] nums :
 //                b) {
@@ -239,13 +245,13 @@ public class AStarAlgorithm {
 //            System.out.println();
 //        }
 
-//        Node2 startNode = new Node2(9, 9);
-//        Node2 goalNode = new Node2(1, 1);
+//        Node startNode = new Node(9, 9);
+//        Node goalNode = new Node(1, 1);
 //
-//        List<Node2> path = findPath(startNode, goalNode);
+//        List<Node> path = findPath(startNode, goalNode);
 //        if (path != null) {
 //            System.out.println("경로를 찾았습니다!");
-//            for (Node2 node : path) {
+//            for (Node node : path) {
 //                System.out.println("(" + node.x + ", " + node.y + ")");
 //            }
 //        } else {
@@ -253,18 +259,18 @@ public class AStarAlgorithm {
 //        }
     }
 
-    public static List<Node2> findPath(Node2 startNode, Node2 goalNode) {
-        PriorityQueue<Node2> openList = new PriorityQueue<>();
-        Set<Node2> closedSet = new HashSet<>();
-        Map<Node2, Integer> gScores = new HashMap<>();
+    public static List<Node> findPath(Node startNode, Node goalNode) {
+        PriorityQueue<Node> openList = new PriorityQueue<>();
+        Set<Node> closedSet = new HashSet<>();
+        Map<Node, Integer> gScores = new HashMap<>();
         openList.add(startNode);
         gScores.put(startNode, 0);
 
         while (!openList.isEmpty()) {
-            Node2 currentNode = openList.poll();
+            Node currentNode = openList.poll();
 
 //            System.out.println("---------- closed set");
-//            for (Node2 node : closedSet) {
+//            for (Node node : closedSet) {
 //                System.out.println(node);
 //            }
 //            System.out.println("---------- -------------");
@@ -282,7 +288,7 @@ public class AStarAlgorithm {
                 int a[] = {newX, newY};
 
                 if (isValid(newX, newY)) {
-                    Node2 neighbor = new Node2(newX, newY);
+                    Node neighbor = new Node(newX, newY);
                     int gScore = gScores.get(currentNode) + getCost(currentNode, neighbor);
 
                     //                    gScores.forEach((x, y) -> {
@@ -316,7 +322,7 @@ public class AStarAlgorithm {
 //            System.out.println("------------");
 
             List<int[]> li = new ArrayList<>();
-            for (Node2 node : openList) {
+            for (Node node : openList) {
                 int[] arr = {node.x, node.y, node.f};
                 li.add(arr);
             }
@@ -327,8 +333,8 @@ public class AStarAlgorithm {
         return null;
     }
 
-    private static List<Node2> reconstructPath(Node2 currentNode) {
-        List<Node2> path = new ArrayList<>();
+    private static List<Node> reconstructPath(Node currentNode) {
+        List<Node> path = new ArrayList<>();
         while (currentNode != null) {
             path.add(0, currentNode);
             currentNode = currentNode.parent;
@@ -336,7 +342,7 @@ public class AStarAlgorithm {
         return path;
     }
 
-    private static int getCost(Node2 currentNode, Node2 neighbor) {
+    private static int getCost(Node currentNode, Node neighbor) {
         int dx = Math.abs(currentNode.x - neighbor.x);
         int dy = Math.abs(currentNode.y - neighbor.y);
         if (dx + dy == 2) {
@@ -346,13 +352,13 @@ public class AStarAlgorithm {
         }
     }
 
-    private static int calculateHeuristic(Node2 node, Node2 goalNode) {
+    private static int calculateHeuristic(Node node, Node goalNode) {
         int dx = Math.abs(node.x - goalNode.x);
         int dy = Math.abs(node.y - goalNode.y);
         return (dx + dy) * VERTICAL_HORIZONTAL_COST;
     }
 
-    private static int caculateEuclid(Node2 node, Node2 goalNode) {
+    private static int caculateEuclid(Node node, Node goalNode) {
         int dx = Math.abs(node.x - goalNode.x);
         int dy = Math.abs(node.y - goalNode.y);
         return (int) (Math.sqrt(dx * dx + dy * dy) * VERTICAL_HORIZONTAL_COST); // 유클리드 거리 계산
