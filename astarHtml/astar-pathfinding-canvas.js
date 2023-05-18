@@ -23,8 +23,10 @@ var spritesheetLoaded = false;
 var world = [[]];
 
 // size in the world in sprite tiles
-var worldWidth = 4;
-var worldHeight = 4;
+// 가로
+var worldWidth = 15;
+// 높이
+var worldHeight = 15;
 
 // size of a tile in pixels
 var tileWidth = 32;
@@ -34,6 +36,7 @@ var tileHeight = 32;
 var pathStart = [worldWidth, worldHeight];
 var pathEnd = [0, 0];
 var currentPath = [];
+var aStarHistory;
 
 // ensure that concole.log doesn't cause errors
 if (typeof console == "undefined") var console = {
@@ -52,7 +55,7 @@ function onload() {
     ctx = canvas.getContext("2d");
     if (!ctx) alert('Hmm!');
     spritesheet = new Image();
-    spritesheet.src = 'spritesheet.png';
+    spritesheet.src = 'test7.png';
     // the image above has been turned into a data url
     // so that no external files are required for
     // this web page - useful for included in a
@@ -64,6 +67,7 @@ function onload() {
 // the spritesheet is ready
 function loaded() {
     console.log('Spritesheet loaded.');
+
     spritesheetLoaded = true;
     createWorld();
 }
@@ -81,31 +85,11 @@ function createWorld() {
         }
     }
 
-    // scatter some walls
-    // for (var x = 0; x < worldWidth; x++) {
-    //     for (var y = 0; y < worldHeight; y++) {
-    //         if (Math.random() > 0.75)
-    //             world[x][y] = 1;
-    //     }
-    // }
-
-    // calculate initial possible path
-    // note: unlikely but possible to never find one...
-    currentPath = [];
-    while (currentPath.length == 0) {
-        pathStart = [Math.floor(Math.random() * worldWidth), Math.floor(Math.random() * worldHeight)];
-        pathEnd = [Math.floor(Math.random() * worldWidth), Math.floor(Math.random() * worldHeight)];
-        if (world[pathStart[0]][pathStart[1]] == 0)
-            currentPath = findPath(world, pathStart, pathEnd);
-    }
     redraw();
-
 }
 
 function redraw() {
     if (!spritesheetLoaded) return;
-
-    console.log('redrawing...');
 
     var spriteNum = 0;
 
@@ -113,6 +97,7 @@ function redraw() {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // 지도 초기화 땅,장애물
     for (var x = 0; x < worldWidth; x++) {
         for (var y = 0; y < worldHeight; y++) {
 
@@ -126,6 +111,7 @@ function redraw() {
                     break;
             }
 
+
             // draw it
             // ctx.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
             ctx.drawImage(spritesheet,
@@ -133,14 +119,13 @@ function redraw() {
                 tileWidth, tileHeight,
                 x * tileWidth, y * tileHeight,
                 tileWidth, tileHeight);
-
         }
     }
 
     // draw the path
     // console.log('Current path length: ' + currentPath.length);
+    // console.log(currentPath.length);
     for (rp = 0; rp < currentPath.length; rp++) {
-		console.log(rp);
         switch (rp) {
             case 0:
                 spriteNum = 2; // start
@@ -190,18 +175,86 @@ function canvasClick(e) {
 
     // now we know while tile we clicked
     // console.log('we clicked tile ' + cell[0] + ',' + cell[1]);
+    let iDirection = $('#selOption').val();
+    let bSetWall = $('#chkWall').prop('checked');
+    let bHistory = $('#chkHistory').prop('checked');
+    let sClick = document.getElementById('selClick').value
 
-    pathStart = pathEnd;
-    pathEnd = cell;
+    if (bSetWall === true) {
+        if (pathStart[0] == cell[0] && pathStart[1] == cell[1] || pathEnd[0] == cell[0] && pathEnd[1] == cell[1]) {
+            alert('출발, 도착지점은 선택할 수 없습니다.');
+            return true;
+        } else {
+            world[cell[0]][cell[1]] = 1;
+            currentPath = [];
+            pathStart = [0, 0];
+            pathEnd = [0, 0];
+            redraw();
+        }
+        return true;
+    }
 
-    console.log('world', world);
-    console.log('pathStart ', pathStart);
-    console.log('pathEnd ', pathEnd);
 
+    if (world[cell[0]][cell[1]] === 1) {
+        alert('장애물은 선택할 수 없습니다.');
+        return true;
+    }
 
-    // calculate path
-    currentPath = findPath(world, pathStart, pathEnd);
-    redraw();
+    switch (sClick) {
+        // 짱구
+        case 'a':
+            pathStart = cell;
+            pathEnd = pathStart;
+            break;
+        //
+        case 'b':
+            pathEnd = cell;
+            break;
+        default :
+            pathStart = cell;
+            break;
+    }
+
+    // if (iDirection == 4) {
+    //     currentPath = findPath(world, pathStart, pathEnd);
+    //     redraw();
+    // } else {
+    if (pathStart[0] == pathEnd[0] && pathStart[1] == pathEnd[1]) {
+        currentPath = [pathStart];
+        redraw();
+    } else {
+        var data = JSON.stringify({
+            world: world,
+            pathStart: pathStart,
+            pathEnd: pathEnd,
+            direction: iDirection
+        });
+
+        $.ajax({
+            url: "http://localhost:8080/aStar",
+            type: "POST",
+            data: data,
+            contentType: "application/json",
+            dataType: "json",
+            success: async function (response) {
+                // 서버로부터 받은 응답 데이터를 처리하는 코드
+                // 응답 데이터를 활용하여 필요한 작업 수행
+                currentPath = response.path
+
+                let time = response.time;
+                $('#spnTime').text(time);
+                aStarHistory = response.history;
+                // 히스토리 보기 클릭시
+                redraw();
+            },
+            error: function (xhr, status, error) {
+                // AJAX 요청이 실패한 경우의 처리 코드
+                alert("경로가 없습니다.");
+                console.error(error);
+            }
+        });
+    }
+    // }
 }
 
 // world is a 2d array of integers (eg world[10][15] = 0)
