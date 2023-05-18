@@ -39,4 +39,5 @@ public class AStarApi {
         responseData.setTime(a.getTime());
         return responseData;
     }
+
 }

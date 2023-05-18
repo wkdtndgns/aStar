@@ -205,6 +205,13 @@ function canvasClick(e) {
     switch (sClick) {
         // 짱구
         case 'a':
+            spriteNum=0;
+            ctx.drawImage(spritesheet,
+                spriteNum * tileWidth, 0,
+                tileWidth, tileHeight,
+                pathStart[0] * tileWidth,
+                pathStart[1] * tileHeight,
+                tileWidth, tileHeight);
             pathStart = cell;
             spriteNum=2;
             ctx.drawImage(spritesheet,
@@ -216,7 +223,14 @@ function canvasClick(e) {
             break;
         // 유리
         case 'b':
-            pathStart = cell;
+            spriteNum=0;
+            ctx.drawImage(spritesheet,
+                spriteNum * tileWidth, 0,
+                tileWidth, tileHeight,
+                pathStart1[0] * tileWidth,
+                pathStart1[1] * tileHeight,
+                tileWidth, tileHeight);
+            pathStart1 = cell;
             spriteNum=3;
             ctx.drawImage(spritesheet,
                 spriteNum * tileWidth, 0,
@@ -224,11 +238,17 @@ function canvasClick(e) {
                 cell[0] * tileWidth,
                 cell[1] * tileHeight,
                 tileWidth, tileHeight);
-
             break;
         // 맹구
         case 'c':
-            pathStart = cell;
+            spriteNum=0;
+            ctx.drawImage(spritesheet,
+                spriteNum * tileWidth, 0,
+                tileWidth, tileHeight,
+                pathStart2[0] * tileWidth,
+                pathStart2[1] * tileHeight,
+                tileWidth, tileHeight);
+            pathStart2 = cell;
             spriteNum=4;
             ctx.drawImage(spritesheet,
                 spriteNum * tileWidth, 0,
