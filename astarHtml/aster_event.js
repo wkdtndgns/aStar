@@ -50,6 +50,32 @@ $(document).ready(function () {
         init();
     })
 
+    $('#btnHistory').click(function () {
+        let aHistory = aStarHistory;
+        const f = function (aRow) {
+            $.each(aRow, function (j, arr) {
+                ctx.drawImage(spritesheet,
+                    4 * tileWidth, 0,
+                    tileWidth, tileHeight,
+                    arr[0] * tileWidth,
+                    arr[1] * tileHeight,
+                    tileWidth, tileHeight);
+            });
+        }
+
+        let term = 300;
+        if (aHistory.length > 10) {
+            term = 100;
+        }
+
+        $.each(aHistory, function (i, aRow) {
+            setTimeout(f, term * i, aRow);
+            if (i === aHistory.length - 1) {
+                setTimeout(redraw, term * (i + 1));
+            }
+        });
+    })
+
     $('#btnMover').click(function () {
         function fMover(rp){
             var start = rp;
@@ -111,4 +137,6 @@ $(document).ready(function () {
         pathEnd = [0, 0];
         redraw();
     }
+
+
 });

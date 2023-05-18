@@ -1,4 +1,4 @@
-package com.example.test2.controller;
+package com.example.test2.vo;
 
 public class RequestData {
     private int[][] world;

@@ -2,6 +2,10 @@ package com.example.test2.controller;
 
 import java.util.*;
 
+/**
+ * git :  https://github.com/gabrieldrn/Java-Maze-Solver
+ * aStar 알고리즘
+ */
 class Node2 implements Comparable<Node2> {
     int x, y; // 노드의 좌표
     int g; // 시작 노드로부터의 비용
@@ -79,13 +83,15 @@ public class AStarAlgorithm {
     private static int numRows = GRID.length;
     private static int numCols = GRID[0].length;
 
-
+    private static long time;
     private static List<List<int[]>> scoreMap = new ArrayList<>();
 
-    AStarAlgorithm() {
-    }
-
-    AStarAlgorithm(int[][] world, int direction) {
+    /**
+     * 생성자
+     * @param world
+     * @param direction
+     */
+    public AStarAlgorithm(int[][] world, int direction) {
         this.GRID = world;
         numCols = GRID[0].length;
         numRows = GRID.length;
@@ -97,11 +103,22 @@ public class AStarAlgorithm {
         }
     }
 
+    /**
+     * astar 알고리즘 시작지점, 도착지점으로 최적의 경로 파악
+     * @param startPoint
+     * @param goalPoint
+     * @return
+     */
     public ArrayList<int[]> getResult(int[] startPoint, int[] goalPoint) {
+        long start = System.currentTimeMillis();
         scoreMap = new ArrayList<>();
         Node2 startNode = new Node2(startPoint[0], startPoint[1]);
         Node2 goalNode = new Node2(goalPoint[0], goalPoint[1]);
         List<Node2> path = findPath(startNode, goalNode);
+        long end = System.currentTimeMillis();
+        // 시간 저장
+        time = end - start;
+        // 결과 만들기
         ArrayList<int[]> resultList = new ArrayList<>();
         if (path != null) {
             for (Node2 node : path) {
@@ -114,7 +131,13 @@ public class AStarAlgorithm {
     }
 
 
-    public List<ArrayList<int[]>> getResult1(int[] startPoint, List<int[]> goalPointList) {
+    /**
+     * 시작지점이 한개고 도착지점이 여러개 일 때...
+     * @param startPoint
+     * @param goalPointList
+     * @return
+     */
+    public List<ArrayList<int[]>> getResultMulti(int[] startPoint, List<int[]> goalPointList) {
         List<ArrayList<int[]>> al = new ArrayList<>();
 
         goalPointList.forEach((goalPoint) -> {
@@ -366,6 +389,10 @@ public class AStarAlgorithm {
 
     public static List<List<int[]>> getScoreMap() {
         return scoreMap;
+    }
+
+    public static long getTime() {
+        return time;
     }
 }
 

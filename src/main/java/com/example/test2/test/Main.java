@@ -1,4 +1,6 @@
-package com.example.test2.controller;
+package com.example.test2.test;
+
+import com.example.test2.controller.AStarAlgorithm;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class Main {
         al.add( new int[]{9, 1});
 
         AStarAlgorithm a = new AStarAlgorithm(arr,8);
-        List<ArrayList<int[]>> al1  =  a.getResult1(startPoint, al);
+        List<ArrayList<int[]>> al1  =  a.getResultMulti(startPoint, al);
         al1.forEach((x)->{
             for (int[] array : x) {
                 System.out.print(Arrays.toString(array));

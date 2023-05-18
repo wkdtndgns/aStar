@@ -21,7 +21,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script type='text/javascript' src='./astar-pathfinding-canvas.js'></script>
-    <script type='text/javascript' src='./test.js'></script>
+    <script type='text/javascript' src='aster_event.js'></script>
 </head>
 <body onload='onload()' style="background-color: #ebfff3;">
 <div>
@@ -41,26 +41,26 @@
         </select>
     </div>
     <div style="margin-bottom: 10px">
-        <p>출발지점 선택 후 종료 지점 선택</p>
+        <p>출발 지점 선택 후 종료 지점 선택</p>
+    </div>
+    <div style="margin-bottom: 10px">
+        <p>시간 계산 ( mille time ): <span id="spnTime"></span></p>
     </div>
     <div style="margin-bottom: 10px">
         선택:
-        <select id="selClick">
+        <select id="selClick" style="margin-right: 20px;">
             <option value="a">짱구</option>
             <option value="b">흰둥이</option>
         </select>
-    </div>
-    <div style="margin-bottom: 10px">
         <label> <input type="checkbox" id="chkWall"/> 장애물 생성</label>
-        <label> <input type="checkbox" id="chkHistory"/> 히스토리 보기</label>
     </div>
-
 </div>
 <div style="margin : 20px;">
     <input type='button' id="btnRandomWall" value='장애물 랜덤'>
     <input type='button' id="btnResetWall" value='장애물 초기화'>
     <input type='button' id="btnRest" value='경로 초기화'>
     <input type='button' id="btnMover" value='짱구 이동'>
+    <input type='button' id="btnHistory" value='히스토리 보기'>
 </div>
 <div>
     <canvas id="gameCanvas"></canvas>
